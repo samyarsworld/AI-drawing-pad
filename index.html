@@ -16,10 +16,15 @@
   </head>
   <body>
     <h1>Welcome to the Smart Pad</h1>
-    <p style="margin-top: -20px; max-width: 400px; font-size: 15px">
+    <p id="subtitle">
       Draw on the pad and our artificially intelligent drawing pad will guess
       what it is!
     </p>
+    <div id="info">
+      <input id="user" type="text" placeholder="Please type your name" />
+      <span id="instructions"></span>
+      <button id="start-btn" class="button-53">START</button>
+    </div>
 
     <div class="canvas-div">
       <canvas id="canvas"> </canvas>
