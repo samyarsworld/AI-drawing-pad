@@ -10,6 +10,9 @@ class Pad {
     this.drawings = [];
     this.isDrawing = false;
     this.#addListener();
+
+    this.undo = this.undo.bind(this);
+    this.clear = this.clear.bind(this);
   }
 
   #drawEach(drawing) {
@@ -74,6 +77,16 @@ class Pad {
       this.canvas.onmouseup();
     };
   }
-}
 
-const drawingPad = new Pad((size = 400));
+  clear() {
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.drawings = [];
+  }
+
+  undo() {
+    if (this.drawings) {
+      this.drawings.pop();
+      this.#drawMultiple();
+    }
+  }
+}
