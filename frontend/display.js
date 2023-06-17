@@ -10,15 +10,12 @@ function createRow(userName, metaData) {
   rowLabel.classList.add("row-label");
   row.appendChild(rowLabel);
 
-  const drawingsContainer = document.createElement("div");
-  drawingsContainer.classList.add("drawings-container");
-  row.appendChild(drawingsContainer);
-
-  for (const data of metaData) {
-    const { id, label } = data;
+  for (const drawingMetaData of metaData) {
+    const { id, label } = drawingMetaData;
 
     const drawingContainer = document.createElement("div");
     drawingContainer.id = "drawing_" + id;
+    drawingContainer.onclick = () => handleClick(drawingMetaData);
     drawingContainer.classList.add("drawing-container");
 
     const drawingLabel = document.createElement("div");
@@ -31,6 +28,19 @@ function createRow(userName, metaData) {
 
     drawingContainer.appendChild(img);
 
-    drawingsContainer.appendChild(drawingContainer);
+    row.appendChild(drawingContainer);
   }
+}
+
+function handleClick(drawing) {
+  // Remove previously selected drawing
+  [...document.querySelectorAll(".highlight")].forEach((ele) =>
+    ele.classList.remove("highlight")
+  );
+  if (!drawing) return;
+  const drawingContainer = document.getElementById("drawing_" + drawing.id);
+  drawingContainer.classList.add("highlight");
+  drawingContainer.scrollIntoView({ behavior: "auto", block: "center" });
+
+  chart.selectSample(drawing);
 }

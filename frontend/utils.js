@@ -9,3 +9,16 @@ function groupBy(dataset, key) {
   }
   return sortedDataset;
 }
+
+const styles = {
+  car: { color: "gray", text: "🚙" },
+  ball: { color: "red", text: "🏀" },
+  fish: { color: "blue", text: "🐟" },
+  house: { color: "yellow", text: "🏠" },
+  pen: { color: "magenta", text: "✏" },
+  box: { color: "brown", text: "🥡" },
+  phone: { color: "cyan", text: "📱" },
+  tree: { color: "green", text: "🌴" },
+  hat: { color: "purple", text: "🎩" },
+  person: { color: "lightgray", text: "🧍" },
+};
