@@ -14,7 +14,18 @@ canvasDiv.style.visibility = "hidden";
 buttonRow.style.visibility = "hidden";
 
 let index = 0;
-const labels = ["car", "ball", "fish"];
+const labels = [
+  "car",
+  "ball",
+  "fish",
+  "house",
+  "pen",
+  "box",
+  "phone",
+  "tree",
+  "hat",
+  "person",
+];
 
 const data = {
   user: null,

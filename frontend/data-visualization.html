@@ -9,11 +9,12 @@
   <body>
     <div id="container"></div>
 
-    <script src="../data/dataset/drawingsMetaData-JS.js"></script>
+    <script src="../data/dataset/features.js"></script>
     <script src="utils.js"></script>
     <script src="display.js"></script>
 
     <script>
+      const { drawingsMetaData, featuresNames } = features;
       const sortedMetaData = groupBy(drawingsMetaData, "user_id");
 
       for (const user_id in sortedMetaData) {

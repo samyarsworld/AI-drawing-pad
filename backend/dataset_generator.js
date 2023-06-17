@@ -43,7 +43,7 @@ fs.writeFileSync(
 
 // Directly readable for javascript
 fs.writeFileSync(
-  DATASET_DIR + "/drawingsMetaData-JS.js",
+  DATASET_DIR + "/drawingsMetaData.js",
   "const drawingsMetaData = " + JSON.stringify(drawingsMetaData) + ";"
 );
 
