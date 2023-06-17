@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Data visualizer</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div id="container"></div>
+
+    <script src="../data/dataset/drawingsMetaData-JS.js"></script>
+    <script src="utils.js"></script>
+    <script src="display.js"></script>
+
+    <script>
+      const sortedMetaData = groupBy(drawingsMetaData, "user_id");
+
+      for (const user_id in sortedMetaData) {
+        const metaData = sortedMetaData[user_id];
+        const user = metaData[0].user;
+        createRow(user, metaData);
+      }
+    </script>
+  </body>
+</html>

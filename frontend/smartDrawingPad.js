@@ -7,7 +7,7 @@ class Pad {
     this.canvas.height = size;
     this.ctx = this.canvas.getContext("2d");
     this.color = "black";
-    this.drawings = [];
+    this.drawing = [];
     this.isDrawing = false;
     this.#addListener();
 
@@ -15,23 +15,23 @@ class Pad {
     this.clear = this.clear.bind(this);
   }
 
-  #drawEach(drawing) {
+  #drawEach(segment) {
     this.ctx.strokeStyle = this.color;
     this.ctx.lineWidth = 3;
     this.ctx.beginPath();
     this.ctx.lineCap = "round";
     this.ctx.lineJoin = "round";
-    this.ctx.moveTo(drawing[0][0], drawing[0][1]);
-    for (let i = 1; i < drawing.length; i++) {
-      this.ctx.lineTo(drawing[i][0], drawing[i][1]);
+    this.ctx.moveTo(segment[0][0], segment[0][1]);
+    for (let i = 1; i < segment.length; i++) {
+      this.ctx.lineTo(segment[i][0], segment[i][1]);
     }
     this.ctx.stroke();
   }
 
   #drawMultiple() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    for (const drawing of this.drawings) {
-      this.#drawEach(drawing);
+    for (const segment of this.drawing) {
+      this.#drawEach(segment);
     }
   }
 
@@ -39,11 +39,17 @@ class Pad {
     this.canvas.onmousedown = (e) => {
       // Getting canvas boundaries
       const canvasBoundaries = this.canvas.getBoundingClientRect();
+      console.log(
+        canvasBoundaries.left,
+        canvasBoundaries.top,
+        e.clientX,
+        e.clientY
+      );
       const mouse = [
         Math.round(e.clientX - canvasBoundaries.left),
         Math.round(e.clientY - canvasBoundaries.top),
       ];
-      this.drawings.push([mouse]);
+      this.drawing.push([mouse]);
       this.isDrawing = true;
     };
     this.canvas.onmousemove = (e) => {
@@ -53,13 +59,13 @@ class Pad {
           Math.round(e.clientX - canvasBoundaries.left),
           Math.round(e.clientY - canvasBoundaries.top),
         ];
-        let lastDrawing = this.drawings[this.drawings.length - 1];
-        lastDrawing.push(mouse);
+        let lastSegment = this.drawing[this.drawing.length - 1];
+        lastSegment.push(mouse);
 
         this.#drawMultiple();
       }
     };
-    this.canvas.onmouseup = () => {
+    document.onmouseup = () => {
       this.isDrawing = false;
     };
 
@@ -73,19 +79,19 @@ class Pad {
       const touch = e.touches[0];
       this.canvas.onmousemove(touch);
     };
-    this.canvas.ontouchend = () => {
-      this.canvas.onmouseup();
+    document.ontouchend = () => {
+      document.onmouseup();
     };
   }
 
   clear() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    this.drawings = [];
+    this.drawing = [];
   }
 
   undo() {
-    if (this.drawings) {
-      this.drawings.pop();
+    if (this.drawing) {
+      this.drawing.pop();
       this.#drawMultiple();
     }
   }

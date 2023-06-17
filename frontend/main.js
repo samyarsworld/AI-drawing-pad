@@ -14,12 +14,12 @@ canvasDiv.style.visibility = "hidden";
 buttonRow.style.visibility = "hidden";
 
 let index = 0;
-const labels = ["car"];
+const labels = ["car", "ball", "fish"];
 
 const data = {
   user: null,
-  time: new Date().getTime(),
-  sketches: {},
+  token: new Date().getTime(),
+  userDrawings: {},
 };
 
 function start() {
@@ -38,13 +38,13 @@ function start() {
 }
 
 function next() {
-  if (drawingPad.drawings.length == 0) {
+  if (drawingPad.drawing.length == 0) {
     alert("Draw something first!");
     return;
   }
 
   const label = labels[index];
-  data.sketches[label] = drawingPad.drawings;
+  data.userDrawings[label] = drawingPad.drawing;
   drawingPad.clear();
   index++;
   if (index < labels.length) {
@@ -68,14 +68,11 @@ function save() {
   const element = document.createElement("a");
   element.setAttribute(
     "href",
-    "data:text/plain;charset=utf-8," + encodeURIComponent(JSON.stringify(data))
+    "data:application/json;charset=utf-8," +
+      encodeURIComponent(JSON.stringify(data))
   );
 
-  const fileName = data.session + ".json";
+  const fileName = data.token + ".json";
   element.setAttribute("download", fileName);
-
-  element.style.display = "none";
-  document.body.appendChild(element);
   element.click();
-  document.body.removeChild(element);
 }
