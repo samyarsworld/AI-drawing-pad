@@ -1,17 +1,47 @@
-const drawingPad = new Pad((size = 400));
-const canvasDiv = document.querySelector(".canvas-div");
-const buttonRow = document.querySelector(".button-row");
-
-const startBtn = document.getElementById("start-btn");
-const clearBtn = document.getElementById("clear-btn");
-const undoBtn = document.getElementById("undo-btn");
+const drawingPad = new Pad(drawingPadContainer, (size = 400));
 const instructions = document.getElementById("instructions");
-
-clearBtn.addEventListener("click", drawingPad.clear);
-undoBtn.addEventListener("click", drawingPad.undo);
+const startBtn = document.getElementById("start-btn");
 startBtn.onclick = start; // Could use remove event listeners but this is cleaner
-canvasDiv.style.visibility = "hidden";
-buttonRow.style.visibility = "hidden";
+drawingPadContainer.style.visibility = "hidden";
+
+const smartPadBtn = document.getElementById("smartPad-btn");
+const contributeBtn = document.getElementById("contribute-btn");
+const sketchBtn = document.getElementById("navbar-btn");
+const smartPadPage = document.getElementById("smartPad");
+const contributePage = document.getElementById("contribute");
+const smartPadContainer = document.getElementById("smartPadContainer");
+
+smartPadBtn.onclick = () => {
+  contributePage.style.display = "none";
+  sketchBtn.style.display = "block";
+  smartPadPage.style.display = "block";
+  smartPadBtn.classList.remove("active");
+  contributeBtn.classList.remove("active");
+  smartPadBtn.classList.add("active");
+};
+
+contributeBtn.onclick = () => {
+  contributePage.style.display = "block";
+  sketchBtn.style.display = "none";
+  smartPadPage.style.display = "none";
+  smartPadBtn.classList.remove("active");
+  contributeBtn.classList.remove("active");
+  contributeBtn.classList.add("active");
+};
+
+sketchBtn.onclick = () => {
+  if (sketchBtn.innerHTML == "SKETCH!") {
+    smartPadContainer.style.display = "block";
+    sketchBtn.innerHTML = "DRAWINGS";
+    sketchBtn.style.backgroundColor = "green";
+    smartPad.triggerUpdate();
+  } else {
+    smartPadContainer.style.display = "none";
+    sketchBtn.innerHTML = "SKETCH!";
+    sketchBtn.style.backgroundColor = "rgb(170, 32, 142)";
+    chart.hideRealTimeDrawing();
+  }
+};
 
 let index = 0;
 const labels = [
@@ -40,8 +70,7 @@ function start() {
   }
   data.user = user.value;
   user.style.display = "none";
-  canvasDiv.style.visibility = "visible";
-  buttonRow.style.visibility = "visible";
+  drawingPadContainer.style.visibility = "visible";
   const label = labels[index];
   instructions.innerHTML = "Please draw a " + label;
   startBtn.innerHTML = "NEXT";

@@ -2,7 +2,7 @@ class Chart {
   constructor(container, samples, options, onClick = null) {
     this.samples = samples;
 
-    this.axislabels = options.axislabels;
+    this.axisLabels = options.axisLabels;
     this.styles = options.styles;
     this.icon = options.icon;
     this.onClick = onClick;
@@ -36,9 +36,20 @@ class Chart {
     this.dataBounds = this.#getDataBounds();
     this.defaultDataBounds = this.#getDataBounds();
 
+    this.realTimeFeature = null;
+
     this.#draw();
 
     this.#addEventListeners();
+  }
+
+  showRealTimeDrawing(feature) {
+    this.realTimeFeature = feature;
+    this.#draw();
+  }
+  hideRealTimeDrawing() {
+    this.realTimeFeature = null;
+    this.#draw();
   }
 
   #addEventListeners() {
@@ -190,6 +201,17 @@ class Chart {
       this.#emphasizeSample(this.selectedSample, "yellow");
     }
 
+    if (this.realTimeFeature) {
+      const loc = math.remapPoint(
+        this.dataBounds,
+        this.pixelBounds,
+        this.realTimeFeature
+      );
+      graphics.drawPoint(ctx, loc, "rgba(255, 255, 255, 0.7", 10000000);
+
+      graphics.drawPoint(ctx, loc, "black");
+    }
+
     this.#drawAxes();
   }
 
@@ -212,7 +234,7 @@ class Chart {
   }
 
   #drawAxes() {
-    const { ctx, canvas, axislabels, margin } = this;
+    const { ctx, canvas, axisLabels, margin } = this;
     const { left, right, top, bottom } = this.pixelBounds;
 
     ctx.clearRect(0, 0, this.canvas.width, margin);
@@ -221,7 +243,7 @@ class Chart {
     ctx.clearRect(0, this.canvas.height - margin, this.canvas.width, margin);
 
     graphics.drawText(ctx, {
-      text: axislabels[0],
+      text: axisLabels[0],
       loc: [canvas.width / 2, bottom + margin / 2],
       size: margin * 0.6,
     });
@@ -230,7 +252,7 @@ class Chart {
     ctx.translate(left - margin / 2, canvas.height / 2);
     ctx.rotate(-Math.PI / 2);
     graphics.drawText(ctx, {
-      text: axislabels[1],
+      text: axisLabels[1],
       loc: [0, 0],
       size: margin * 0.6,
     });

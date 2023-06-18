@@ -1,18 +1,33 @@
 class Pad {
-  constructor(size) {
-    this.canvas = /** @type {HTMLCanvasElement} */ (
-      document.getElementById("canvas")
-    );
+  constructor(container, size, update) {
+    this.canvas = document.createElement("canvas");
     this.canvas.width = size;
     this.canvas.height = size;
+    container.appendChild(this.canvas);
+
+    this.buttonRow = document.createElement("div");
+    this.buttonRow.classList.add("button-row");
+    container.appendChild(this.buttonRow);
+
+    this.undo = document.createElement("button");
+    this.undo.classList.add("button-53");
+    this.undo.innerHTML = "UNDO";
+    this.undo.id = "undo-btn";
+    this.buttonRow.appendChild(this.undo);
+
+    this.clear = document.createElement("button");
+    this.clear.classList.add("button-53");
+    this.clear.id = "clear-btn";
+    this.clear.innerHTML = "CLEAR";
+    this.buttonRow.appendChild(this.clear);
+
     this.ctx = this.canvas.getContext("2d");
     this.color = "black";
     this.drawing = [];
     this.isDrawing = false;
     this.#addListener();
 
-    this.undo = this.undo.bind(this);
-    this.clear = this.clear.bind(this);
+    this.update = update;
   }
 
   #drawEach(segment) {
@@ -33,18 +48,20 @@ class Pad {
     for (const segment of this.drawing) {
       this.#drawEach(segment);
     }
+
+    this.triggerUpdate();
+  }
+
+  triggerUpdate() {
+    if (this.update) {
+      this.update(this.drawing);
+    }
   }
 
   #addListener() {
     this.canvas.onmousedown = (e) => {
       // Getting canvas boundaries
       const canvasBoundaries = this.canvas.getBoundingClientRect();
-      console.log(
-        canvasBoundaries.left,
-        canvasBoundaries.top,
-        e.clientX,
-        e.clientY
-      );
       const mouse = [
         Math.round(e.clientX - canvasBoundaries.left),
         Math.round(e.clientY - canvasBoundaries.top),
@@ -65,7 +82,7 @@ class Pad {
         this.#drawMultiple();
       }
     };
-    document.onmouseup = () => {
+    this.canvas.onmouseup = () => {
       this.isDrawing = false;
     };
 
@@ -79,20 +96,22 @@ class Pad {
       const touch = e.touches[0];
       this.canvas.onmousemove(touch);
     };
-    document.ontouchend = () => {
-      document.onmouseup();
+    this.canvas.ontouchend = () => {
+      this.canvas.onmouseup();
     };
-  }
 
-  clear() {
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    this.drawing = [];
-  }
-
-  undo() {
-    if (this.drawing) {
-      this.drawing.pop();
-      this.#drawMultiple();
-    }
+    // Undo and clear buttons
+    this.undo.onclick = () => {
+      if (this.drawing) {
+        this.drawing.pop();
+        this.#drawMultiple();
+      }
+      this.triggerUpdate();
+    };
+    this.clear.onclick = () => {
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      this.drawing = [];
+      this.triggerUpdate();
+    };
   }
 }
