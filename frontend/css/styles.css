@@ -1,0 +1,67 @@
+body {
+  margin: 0;
+  background-color: rgb(25, 1, 44);
+  font-family: Consolas, Lucida Console, monospace;
+  overscroll-behavior: none;
+  overflow-x: hidden;
+  text-decoration: none;
+}
+
+.main {
+  color: aliceblue;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+canvas {
+  background-color: white;
+}
+
+.button-row {
+  margin-top: 10px;
+  width: 400px;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+#clear-btn {
+  background-color: #27cd67;
+}
+
+#undo-btn {
+  background-color: #ee5348;
+  margin-left: 10px;
+}
+
+/* Button */
+.button-53 {
+  border: 0 solid #e5e7eb;
+  box-sizing: border-box;
+  font-family: Consolas;
+  font-weight: bold;
+  line-height: 1rem;
+  position: relative;
+  cursor: pointer;
+  transform: rotate(-2deg);
+  width: 65px;
+  height: 35px;
+}
+
+.button-53:after {
+  content: "";
+  position: absolute;
+  border: 1px solid #000000;
+  bottom: 4px;
+  left: 4px;
+  width: calc(100% - 1px);
+  height: calc(100% - 1px);
+}
+
+.button-53:hover:after {
+  bottom: 2px;
+  left: 2px;
+}

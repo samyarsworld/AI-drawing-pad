@@ -1,16 +1,5 @@
-function groupBy(dataset, key) {
-  const sortedDataset = [];
-  for (const data of dataset) {
-    const value = data[key];
-    if (!sortedDataset[value]) {
-      sortedDataset[value] = [];
-    }
-    sortedDataset[value].push(data);
-  }
-  return sortedDataset;
-}
-
-const styles = {
+// Used to define drawing images on the chart
+const STYLES = {
   car: { color: "gray", text: "🚙" },
   ball: { color: "red", text: "🏀" },
   fish: { color: "blue", text: "🐟" },
@@ -22,3 +11,16 @@ const styles = {
   hat: { color: "purple", text: "🎩" },
   person: { color: "lightgray", text: "🧍" },
 };
+
+const LABELS = [
+  "car",
+  "ball",
+  "fish",
+  "house",
+  "pen",
+  "box",
+  "phone",
+  "tree",
+  "hat",
+  "person",
+];

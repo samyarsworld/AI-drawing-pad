@@ -2,15 +2,12 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=0.9, user-scalable=0"
-    />
-    <link rel="stylesheet" href="styles.css" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto&display=swap"
-      rel="stylesheet"
-    />
+    <meta name="viewport" content="width=device-width, user-scalable=0" />
+    <link rel="stylesheet" href="./css/styles.css" />
+    <link rel="stylesheet" href="./css/navbar.css" />
+    <link rel="stylesheet" href="./css/smartPad.css" />
+    <link rel="stylesheet" href="./css/contribute.css" />
+
     <title>Smart Drawing Pad</title>
   </head>
 
@@ -26,33 +23,47 @@
       </div>
 
       <div id="smartPad" style="display: block">
-        <div id="smartPadContainer" style="display: none"></div>
+        <div id="smartPadContainer" style="display: none">
+          <div id="predictedLabelContainer"></div>
+        </div>
         <div id="chartContainer"></div>
-        <div id="container"></div>
+        <div id="drawingsContainer">
+          <h1 id="smartPad-h1">Welcome to the SmartPad</h1>
+          <p id="smartPad-subtitle">
+            Click on the SKETCH button to draw on the SmartPad. Our intelligent
+            SmartPad will guess what it is! Please take it easy as our AI is
+            only trained to guess from the 10 drawings labeled below.
+          </p>
+          <br /><br /><br />
+        </div>
       </div>
 
       <div id="contribute" style="display: none">
-        <h1>Welcome to the SmartPad</h1>
-        <p id="subtitle">
+        <h1 id="contribute-h1">Welcome to the SmartPad</h1>
+        <p id="contribute-subtitle">
           Draw on the pad and our artificially intelligent drawing pad will
           guess what it is!
         </p>
-        <div id="info">
+        <div id="contribute-info">
           <input id="user" type="text" placeholder="Please type your name" />
-          <span id="instructions"></span>
+          <span id="contribute-instructions"></span>
           <button id="start-btn" class="button-53">START</button>
         </div>
         <div id="drawingPadContainer"></div>
       </div>
     </div>
   </body>
+  <script src="../data/dataset/minMax.js"></script>
   <script src="../data/dataset/features.js"></script>
-  <script src="utils.js"></script>
+
+  <script src="./utils/constants.js"></script>
+  <script src="./utils/common.js"></script>
+  <script src="./utils/featureFunctions.js"></script>
+  <script src="./utils/graphics.js"></script>
+  <script src="./utils/math.js"></script>
+  <script src="./utils/chart.js"></script>
+
   <script src="display.js"></script>
-  <script src="./chart/graphics.js"></script>
-  <script src="./chart/math.js"></script>
-  <script src="./chart/chart.js"></script>
   <script src="drawingPad.js"></script>
   <script src="main.js"></script>
-  <script src="data-vis.js"></script>
 </html>

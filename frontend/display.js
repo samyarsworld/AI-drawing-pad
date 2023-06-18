@@ -1,4 +1,4 @@
-const container = document.getElementById("container");
+const container = document.getElementById("drawingsContainer");
 
 function createRow(userName, metaData) {
   const row = document.createElement("div");

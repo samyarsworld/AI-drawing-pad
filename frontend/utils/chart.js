@@ -36,19 +36,22 @@ class Chart {
     this.dataBounds = this.#getDataBounds();
     this.defaultDataBounds = this.#getDataBounds();
 
-    this.realTimeFeature = null;
+    this.realTimeFeatures = null;
+    this.nearestDrawings = null;
 
     this.#draw();
 
     this.#addEventListeners();
   }
 
-  showRealTimeDrawing(feature) {
-    this.realTimeFeature = feature;
+  showRealTimeDrawing(features, label, nearestDrawings) {
+    this.realTimeFeatures = { features, label };
+    this.nearestDrawings = nearestDrawings;
+
     this.#draw();
   }
   hideRealTimeDrawing() {
-    this.realTimeFeature = null;
+    this.realTimeFeatures = null;
     this.#draw();
   }
 
@@ -201,15 +204,22 @@ class Chart {
       this.#emphasizeSample(this.selectedSample, "yellow");
     }
 
-    if (this.realTimeFeature) {
-      const loc = math.remapPoint(
-        this.dataBounds,
-        this.pixelBounds,
-        this.realTimeFeature
-      );
-      graphics.drawPoint(ctx, loc, "rgba(255, 255, 255, 0.7", 10000000);
-
-      graphics.drawPoint(ctx, loc, "black");
+    if (this.realTimeFeatures) {
+      const { features, label } = this.realTimeFeatures;
+      const loc = math.remapPoint(this.dataBounds, this.pixelBounds, features);
+      graphics.drawPoint(ctx, loc, "rgba(255, 255, 255, 0.7)", 10000000);
+      for (const drawing of this.nearestDrawings) {
+        const point = math.remapPoint(
+          this.dataBounds,
+          this.pixelBounds,
+          drawing.features
+        );
+        ctx.beginPath();
+        ctx.moveTo(...loc);
+        ctx.lineTo(...point);
+        ctx.stroke();
+      }
+      graphics.drawImage(ctx, this.styles[label].image, loc);
     }
 
     this.#drawAxes();

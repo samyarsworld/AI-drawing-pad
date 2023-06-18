@@ -1,5 +1,5 @@
 class Pad {
-  constructor(container, size, update) {
+  constructor(container, size, realTimeChartUpdate) {
     this.canvas = document.createElement("canvas");
     this.canvas.width = size;
     this.canvas.height = size;
@@ -27,7 +27,7 @@ class Pad {
     this.isDrawing = false;
     this.#addListener();
 
-    this.update = update;
+    this.realTimeChartUpdate = realTimeChartUpdate;
   }
 
   #drawEach(segment) {
@@ -49,12 +49,12 @@ class Pad {
       this.#drawEach(segment);
     }
 
-    this.triggerUpdate();
+    this.triggerChartUpdate();
   }
 
-  triggerUpdate() {
-    if (this.update) {
-      this.update(this.drawing);
+  triggerChartUpdate() {
+    if (this.realTimeChartUpdate) {
+      this.realTimeChartUpdate(this.drawing);
     }
   }
 
@@ -106,12 +106,12 @@ class Pad {
         this.drawing.pop();
         this.#drawMultiple();
       }
-      this.triggerUpdate();
+      this.triggerChartUpdate();
     };
     this.clear.onclick = () => {
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
       this.drawing = [];
-      this.triggerUpdate();
+      this.triggerChartUpdate();
     };
   }
 }
