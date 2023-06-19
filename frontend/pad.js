@@ -1,10 +1,13 @@
 class Pad {
   constructor(container, size, realTimeChartUpdate) {
+    // Create pad canvas
     this.canvas = document.createElement("canvas");
+    this.ctx = this.canvas.getContext("2d");
     this.canvas.width = size;
     this.canvas.height = size;
     container.appendChild(this.canvas);
 
+    // Create pad undo and clear buttons
     this.buttonRow = document.createElement("div");
     this.buttonRow.classList.add("button-row");
     container.appendChild(this.buttonRow);
@@ -21,16 +24,25 @@ class Pad {
     this.clear.innerHTML = "CLEAR";
     this.buttonRow.appendChild(this.clear);
 
-    this.ctx = this.canvas.getContext("2d");
-    this.color = "black";
-    this.drawing = [];
-    this.isDrawing = false;
-    this.#addListener();
+    this.#addListener(); // Add event listeners
 
+    this.color = "black"; // Set default pen color
+    this.drawing = []; // Drawing array of segments (with segments being array of points)
+    this.isDrawing = false; // Flag true if mouse is down (drawing continues)
+
+    // A function only included in the smartPad to dynamically update the chart associate with it
     this.realTimeChartUpdate = realTimeChartUpdate;
   }
 
-  #drawEach(segment) {
+  // Chart update occurs if there is an update (only relevant to the smartPad)
+  triggerChartUpdate() {
+    if (this.realTimeChartUpdate) {
+      this.realTimeChartUpdate(this.drawing);
+    }
+  }
+
+  // Draws each segment (array of points) of the drawing
+  #drawSegment(segment) {
     this.ctx.strokeStyle = this.color;
     this.ctx.lineWidth = 3;
     this.ctx.beginPath();
@@ -43,19 +55,14 @@ class Pad {
     this.ctx.stroke();
   }
 
-  #drawMultiple() {
+  // Draws the drawing by looping through segments
+  #draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     for (const segment of this.drawing) {
-      this.#drawEach(segment);
+      this.#drawSegment(segment);
     }
 
     this.triggerChartUpdate();
-  }
-
-  triggerChartUpdate() {
-    if (this.realTimeChartUpdate) {
-      this.realTimeChartUpdate(this.drawing);
-    }
   }
 
   #addListener() {
@@ -79,7 +86,7 @@ class Pad {
         let lastSegment = this.drawing[this.drawing.length - 1];
         lastSegment.push(mouse);
 
-        this.#drawMultiple();
+        this.#draw();
       }
     };
     this.canvas.onmouseup = () => {
@@ -88,7 +95,7 @@ class Pad {
 
     // Relevant for touch devices
     this.canvas.ontouchstart = (e) => {
-      // Getting the first touch
+      // Getting the first touch (basically only one finger)
       const touch = e.touches[0];
       this.canvas.onmousedown(touch);
     };
@@ -104,14 +111,14 @@ class Pad {
     this.undo.onclick = () => {
       if (this.drawing) {
         this.drawing.pop();
-        this.#drawMultiple();
+        this.#draw();
       }
-      this.triggerChartUpdate();
+      this.triggerChartUpdate(); // Update chart on the smartPad page to reflect real time updates
     };
     this.clear.onclick = () => {
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
       this.drawing = [];
-      this.triggerChartUpdate();
+      this.triggerChartUpdate(); // Update chart on the smartPad page to reflect real time updates
     };
   }
 }
