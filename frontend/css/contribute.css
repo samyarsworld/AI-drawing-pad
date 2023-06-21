@@ -5,14 +5,17 @@
 
 #contribute-subtitle {
   margin-top: -20px;
-  width: 400px;
+  text-align: justify;
+  max-width: 800px;
+  width: 95%;
+  margin-left: 2%;
   font-size: 15px;
   margin-bottom: 30px;
 }
 
 #contribute-info {
   margin-bottom: 10px;
-  width: 400px;
+  max-width: 800px;
 }
 
 #start-btn {

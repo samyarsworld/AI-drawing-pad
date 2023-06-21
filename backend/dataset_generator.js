@@ -1,22 +1,18 @@
-DATA_DIR = "../data";
-RAW_DATA_DIR = DATA_DIR + "/raw";
-DATASET_DIR = DATA_DIR + "/dataset";
-IMAGES_DIR = DATASET_DIR + "/images";
-JSON_DIR = DATASET_DIR + "/json";
-NUM_OF_LABELS = 10;
-
 const fs = require("fs");
-const { logProgress } = require("./utils.js");
-
 const { createCanvas } = require("canvas");
-const canvas = createCanvas(400, 400);
+
+const canvas = createCanvas(CANVAS_SIZE, CANVAS_SIZE);
 const ctx = canvas.getContext("2d");
 
 const fileNames = fs.readdirSync(RAW_DATA_DIR);
+const totalDrawings = fileNames.length * NUM_OF_LABELS;
 const drawingsMetaData = [];
-let id = 1;
+let id = 1; // Image ID to be saved on the cloud
+
+// Generate images using received JSON drawings
 fileNames.forEach((fileName) => {
   const data = JSON.parse(fs.readFileSync(RAW_DATA_DIR + "/" + fileName));
+  console.log(data);
   const { user, token, userDrawings } = data;
 
   for (let label in userDrawings) {
@@ -28,7 +24,11 @@ fileNames.forEach((fileName) => {
     );
 
     // Log the progress of generating images
-    logProgress(id, fileNames.length * NUM_OF_LABELS);
+    process.stdout.clearLine();
+    process.stdout.cursorTo(0);
+    process.stdout.write(id + "/" + totalDrawings);
+
+    // Generate PNG image file
     imageGenerator(IMAGES_DIR + "/" + id + ".png", userDrawings[label]);
 
     id += 1;

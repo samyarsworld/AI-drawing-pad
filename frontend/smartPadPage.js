@@ -2,6 +2,8 @@
 const drawingsContainer = document.getElementById("drawingsContainer");
 const chartContainer = document.getElementById("chartContainer");
 const smartPadContainer = document.getElementById("smartPadContainer");
+
+//
 const { drawingsMetaData, featureNames } = features;
 const sortedMetaData = groupBy(drawingsMetaData, "user_id");
 

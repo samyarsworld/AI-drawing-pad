@@ -1,11 +1,11 @@
+// Single page application page change
+const smartPadPage = document.getElementById("smartPad");
+const contributePage = document.getElementById("contribute");
+
 // Navbar
 const smartPadBtn = document.getElementById("smartPad-btn");
 const contributeBtn = document.getElementById("contribute-btn");
 const sketchBtn = document.getElementById("navbar-btn");
-
-// Single page application page change
-const smartPadPage = document.getElementById("smartPad");
-const contributePage = document.getElementById("contribute");
 
 smartPadBtn.onclick = () => {
   contributePage.style.display = "none";

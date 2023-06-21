@@ -1,0 +1,7 @@
+DATA_DIR = "../data";
+RAW_DATA_DIR = DATA_DIR + "/raw";
+DATASET_DIR = DATA_DIR + "/dataset";
+IMAGES_DIR = DATASET_DIR + "/images";
+JSON_DIR = DATASET_DIR + "/json";
+NUM_OF_LABELS = 10;
+CANVAS_SIZE = 400;
