@@ -23,6 +23,13 @@ function getDrawingHeight(drawing) {
   return maxY - minY;
 }
 
+const active = [
+  //{featureName:"Segment Count",function:getDrawingSegmentCount},
+  //{featureName:"Point Count",function:getDrawingPointCount},
+  { featureName: "Drawing Width", function: getDrawingWidth },
+  { featureName: "Drawing Height", function: getDrawingHeight },
+];
+
 // Normalize feature points
 function normalizedFeaturePoints(featurePoints, minMax) {
   let min, max;
@@ -42,8 +49,17 @@ function normalizedFeaturePoints(featurePoints, minMax) {
   }
   for (let i = 0; i < featurePoints.length; i++) {
     for (let j = 0; j < dimensions; j++) {
-      featurePoints[i][j] = math.invLerp(min[j], max[j], featurePoints[i][j]);
+      featurePoints[i][j] = (featurePoints[i][j] - min[j]) / (max[j] - min[j]);
     }
   }
   return { min, max };
 }
+
+module.exports = {
+  active,
+  getDrawingSegmentCount,
+  getDrawingPointCount,
+  getDrawingWidth,
+  getDrawingHeight,
+  normalizedFeaturePoints,
+};

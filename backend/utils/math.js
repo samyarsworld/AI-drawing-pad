@@ -70,3 +70,5 @@ math.getNearest = (loc, points) => {
   }
   return nearestIndex;
 };
+
+module.exports = { math };

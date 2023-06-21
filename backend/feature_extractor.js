@@ -1,10 +1,6 @@
-const activeFeatureFunctions = [
-  //{featureName:"Segment Count",function:getDrawingSegmentCount},
-  //{featureName:"Point Count",function:getDrawingPointCount},
-  { featureName: "Drawing Width", function: getDrawingWidth },
-  { featureName: "Drawing Height", function: getDrawingHeight },
-];
+const constants = require("./utils/constants.js");
 const fs = require("fs");
+const ff = require("./utils/featureFunctions");
 
 const drawingsMetaData = JSON.parse(
   fs.readFileSync("../data/dataset/drawingsMetaData.json")
@@ -12,34 +8,21 @@ const drawingsMetaData = JSON.parse(
 
 for (const metaData of drawingsMetaData) {
   const drawing = JSON.parse(
-    fs.readFileSync("../data/dataset/json/" + metaData.id + ".json")
+    fs.readFileSync(constants.JSON_DIR + "/" + metaData.id + ".json")
   );
   // Add the important features to the drawing meta data
-  const featureFunctions = activeFeatureFunctions.map((f) => f.function);
-  metaData.features = featureFunctions.map((f) => f(drawing));
+  const activeFeatureFunctions = ff.active.map((f) => f.function);
+  metaData.features = activeFeatureFunctions.map((f) => f(drawing));
 }
-const minMax = normalizedFeaturePoints(drawingsMetaData.map((d) => d.features));
-
-const featureNames = activeFeatureFunctions.map((f) => f.featureName);
-
-fs.writeFileSync(
-  "../data/dataset/features.js",
-  "const features = " + JSON.stringify({ featureNames, drawingsMetaData }) + ";"
+const minMax = ff.normalizedFeaturePoints(
+  drawingsMetaData.map((d) => d.features)
 );
 
-fs.writeFileSync(
-  "../data/dataset/only-features.json",
-  JSON.stringify({
-    featureNames,
-    drawingsMetaData: drawingsMetaData.map((d) => {
-      return { features: d.features, label: d.label };
-    }),
-  })
-);
+const featureNames = ff.active.map((f) => f.featureName);
 
 fs.writeFileSync(
-  "../data/dataset/minMax.js",
-  `const minMax=
-  ${JSON.stringify(minMax)}
-  ;`
+  constants.DATASET_DIR + "/features.js",
+  "const features = " +
+    JSON.stringify({ featureNames, drawingsMetaData, minMax }) +
+    ";"
 );

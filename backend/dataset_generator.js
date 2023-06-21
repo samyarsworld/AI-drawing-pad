@@ -1,25 +1,27 @@
+const constants = require("./utils/constants.js");
 const fs = require("fs");
 const { createCanvas } = require("canvas");
 
-const canvas = createCanvas(CANVAS_SIZE, CANVAS_SIZE);
+const canvas = createCanvas(constants.CANVAS_SIZE, constants.CANVAS_SIZE);
 const ctx = canvas.getContext("2d");
 
-const fileNames = fs.readdirSync(RAW_DATA_DIR);
-const totalDrawings = fileNames.length * NUM_OF_LABELS;
+const fileNames = fs.readdirSync(constants.RAW_DATA_DIR);
+const totalDrawings = fileNames.length * constants.NUM_OF_LABELS;
 const drawingsMetaData = [];
 let id = 1; // Image ID to be saved on the cloud
 
 // Generate images using received JSON drawings
 fileNames.forEach((fileName) => {
-  const data = JSON.parse(fs.readFileSync(RAW_DATA_DIR + "/" + fileName));
-  console.log(data);
+  const data = JSON.parse(
+    fs.readFileSync(constants.RAW_DATA_DIR + "/" + fileName)
+  );
   const { user, token, userDrawings } = data;
 
   for (let label in userDrawings) {
     drawingsMetaData.push({ id: id, label: label, user: user, user_id: token });
 
     fs.writeFileSync(
-      JSON_DIR + "/" + id + ".json",
+      constants.JSON_DIR + "/" + id + ".json",
       JSON.stringify(userDrawings[label])
     );
 
@@ -29,7 +31,10 @@ fileNames.forEach((fileName) => {
     process.stdout.write(id + "/" + totalDrawings);
 
     // Generate PNG image file
-    imageGenerator(IMAGES_DIR + "/" + id + ".png", userDrawings[label]);
+    imageGenerator(
+      constants.IMAGES_DIR + "/" + id + ".png",
+      userDrawings[label]
+    );
 
     id += 1;
   }
@@ -37,14 +42,8 @@ fileNames.forEach((fileName) => {
 
 // Json
 fs.writeFileSync(
-  DATASET_DIR + "/drawingsMetaData.json",
+  constants.DATASET_DIR + "/drawingsMetaData.json",
   JSON.stringify(drawingsMetaData)
-);
-
-// Directly readable for javascript
-fs.writeFileSync(
-  DATASET_DIR + "/drawingsMetaData.js",
-  "const drawingsMetaData = " + JSON.stringify(drawingsMetaData) + ";"
 );
 
 function imageGenerator(filePath, drawing) {
