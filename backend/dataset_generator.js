@@ -35,15 +35,33 @@ fileNames.forEach((fileName) => {
       constants.IMAGES_DIR + "/" + id + ".png",
       userDrawings[label]
     );
-
     id += 1;
   }
 });
 
-// Json
+//// Generate the dataset by including the feature points and minMax for scaling
+const ff = require("./utils/featureFunctions");
+
+for (const metaData of drawingsMetaData) {
+  const drawing = JSON.parse(
+    fs.readFileSync(constants.JSON_DIR + "/" + metaData.id + ".json")
+  );
+  // Add the important features to the drawing meta data
+  const activeFeatureFunctions = ff.active.map((f) => f.function);
+  metaData.features = activeFeatureFunctions.map((f) => f(drawing));
+}
+
+const minMax = ff.normalizedFeaturePoints(
+  drawingsMetaData.map((d) => d.features)
+);
+
+const featureNames = ff.active.map((f) => f.featureName);
+
 fs.writeFileSync(
-  constants.DATASET_DIR + "/drawingsMetaData.json",
-  JSON.stringify(drawingsMetaData)
+  constants.DATASET_DIR + "/dataset.js",
+  "const dataset = " +
+    JSON.stringify({ featureNames, drawingsMetaData, minMax }) +
+    ";"
 );
 
 function imageGenerator(filePath, drawing) {

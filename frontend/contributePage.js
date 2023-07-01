@@ -44,10 +44,9 @@ function next() {
     const nextLabel = LABELS[index];
     instructions.innerHTML = "Please draw a " + nextLabel;
   } else {
-    canvasDiv.style.visibility = "hidden";
-    buttonRow.style.visibility = "hidden";
-
-    instructions.innerHTML = "We are all done! Feel free to redo!";
+    drawingPadContainer.style.visibility = "hidden";
+    instructions.innerHTML =
+      "We are all done! Feel free to refresh and start over!";
     startBtn.innerHTML = "SAVE";
     startBtn.onclick = save;
   }

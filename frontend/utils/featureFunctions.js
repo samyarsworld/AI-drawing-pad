@@ -42,8 +42,16 @@ function normalizedFeaturePoints(featurePoints, minMax) {
   }
   for (let i = 0; i < featurePoints.length; i++) {
     for (let j = 0; j < dimensions; j++) {
+      // Change the features by reference
       featurePoints[i][j] = math.invLerp(min[j], max[j], featurePoints[i][j]);
     }
   }
   return { min, max };
 }
+
+const active = [
+  //{featureName:"Segment Count",function:getDrawingSegmentCount},
+  //{featureName:"Point Count",function:getDrawingPointCount},
+  { featureName: "Drawing Width", function: getDrawingWidth },
+  { featureName: "Drawing Height", function: getDrawingHeight },
+];

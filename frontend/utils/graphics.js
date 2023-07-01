@@ -40,6 +40,7 @@ graphics.generateImages = (styles, size = 20) => {
       magenta: 300,
     };
     const hue = -45 + colorHueMap[style.color];
+
     if (!isNaN(hue)) {
       ctx.filter = `
             brightness(2)
