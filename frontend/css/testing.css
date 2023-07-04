@@ -1,0 +1,13 @@
+#testDrawingsContainer {
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#testDrawingsContainer > .row {
+  margin-left: 0px;
+}
+
+.correct {
+  background-color: rgb(94, 180, 94) !important;
+}

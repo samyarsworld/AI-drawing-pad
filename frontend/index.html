@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="./css/navbar.css" />
     <link rel="stylesheet" href="./css/smartPad.css" />
     <link rel="stylesheet" href="./css/contribute.css" />
+    <link rel="stylesheet" href="./css/testing.css" />
 
     <title>Smart Drawing Pad</title>
   </head>
@@ -17,6 +18,7 @@
         <ul class="navbar-list">
           <li class="navbar-item active" id="smartPad-btn">SmartPad</li>
           <li class="navbar-item" id="contribute-btn">Contribute</li>
+          <li class="navbar-item" id="testing-btn">Testing</li>
           <li role="button" id="navbar-btn">SKETCH!</li>
         </ul>
       </div>
@@ -56,9 +58,20 @@
         </div>
         <div id="drawingPadContainer"></div>
       </div>
+
+      <div id="testing" style="display: none">
+        <div id="testDrawingsContainer">
+          <br />
+          <h1 id="testing-h1">The accuracy of current method is as follows:</h1>
+          <h4 id="testing-subtitle">41% with blah blah</h4>
+          <br /><br /><br />
+        </div>
+      </div>
     </div>
   </body>
   <script src="../data/dataset/dataset.js"></script>
+  <script src="../data/dataset/testingSet.js"></script>
+  <script src="../data/dataset/trainingSet.js"></script>
 
   <script src="./utils/constants.js"></script>
   <script src="./utils/common.js"></script>
@@ -71,5 +84,7 @@
   <script src="pad.js"></script>
   <script src="smartPadPage.js"></script>
   <script src="contributePage.js"></script>
+  <script src="testingPage.js"></script>
+
   <script src="main.js"></script>
 </html>

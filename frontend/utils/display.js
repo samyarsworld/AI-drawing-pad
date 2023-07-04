@@ -1,7 +1,7 @@
-function createRow(userName, metaData) {
+function createRow(container, userName, metaData) {
   const row = document.createElement("div");
   row.classList.add("row");
-  drawingsContainer.appendChild(row);
+  container.appendChild(row);
 
   const rowLabel = document.createElement("div");
   rowLabel.innerHTML = userName;
@@ -9,14 +9,21 @@ function createRow(userName, metaData) {
   row.appendChild(rowLabel);
 
   for (const drawingMetaData of metaData) {
-    const { id, label } = drawingMetaData;
+    const { id, label, correct } = drawingMetaData;
 
     const drawingContainer = document.createElement("div");
     drawingContainer.id = "drawing_" + id;
 
     // Handle click to show the corresponding drawing on the chart as well
-    drawingContainer.onclick = () => handleDrawingClick(drawingMetaData);
+    if (container.id == "drawingsContainer") {
+      drawingContainer.onclick = () => handleDrawingClick(drawingMetaData);
+    }
     drawingContainer.classList.add("drawing-container");
+
+    if (correct != "NA" && correct) {
+      console.log("hey");
+      drawingContainer.style.backgroundColor = "lightgreen";
+    }
 
     const drawingLabel = document.createElement("div");
     drawingLabel.innerHTML = label;

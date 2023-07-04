@@ -2,7 +2,7 @@ RAW_DATA_DIR = "../data/raw";
 DATASET_DIR = "../data/dataset";
 IMAGES_DIR = DATASET_DIR + "/images";
 JSON_DIR = DATASET_DIR + "/json";
-NUM_OF_LABELS = 10;
+NUM_OF_LABELS = 8;
 CANVAS_SIZE = 400;
 
 module.exports = {
