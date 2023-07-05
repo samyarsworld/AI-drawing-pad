@@ -20,7 +20,7 @@ fileNames.forEach((fileName) => {
   const data = JSON.parse(
     fs.readFileSync(constants.RAW_DATA_DIR + "/" + fileName)
   );
-  const { user, token, userDrawings } = data;
+  const { student: user, session: token, drawings: userDrawings } = data;
 
   for (let label in userDrawings) {
     // Generate PNG image file for each drawing
@@ -66,6 +66,11 @@ fs.writeFileSync(
     ";"
 );
 
+fs.writeFileSync(
+  constants.DATASET_DIR + "/dataset.json",
+  JSON.stringify(drawingsMetaData)
+);
+
 // Create testing and training files
 test(drawingsMetaData, featureNames);
 
@@ -87,3 +92,5 @@ function imageGenerator(filePath, drawing) {
   const buffer = canvas.toBuffer("image/png");
   fs.writeFileSync(filePath, buffer);
 }
+
+module.exports = { drawingsMetaData };
