@@ -11,7 +11,7 @@ function KNN(data, point) {
   // Get all the points on the chart
   const points = data.map((d) => d.features);
   // Get indices of the k nearest points on the chart to current point
-  const indices = math.getNearest(point, points, (k = 5));
+  const indices = math.getNearest(point, points, (k = 50));
   const nearestDrawings = indices.map((ind) => data[ind]);
   const labels = nearestDrawings.map((d) => d.label);
   const counts = {};

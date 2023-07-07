@@ -25,7 +25,11 @@ const options = {
   styles: STYLES,
   transparency: 0.7,
   icon: "image",
+  bg: new Image(),
 };
+
+options.bg.src = "../data/dataset/decisionBoundary.png";
+
 const chart = new Chart(
   chartContainer,
   drawingsMetaData,
@@ -41,23 +45,11 @@ function drawingUpdate(drawing) {
   const activeFeatureFunctions = active.map((f) => f.function);
   const point = activeFeatureFunctions.map((f) => f(drawing));
   normalizedFeaturePoints([point], minMax);
-  const { label, nearestDrawings } = classify(drawingsMetaData, point);
+  const { label, nearestDrawings } = classify(
+    classifier,
+    drawingsMetaData,
+    point
+  );
   predictedLabelContainer.innerHTML = "Is it a " + label + " ?";
   chart.showRealTimeDrawing(point, label, nearestDrawings);
-}
-
-function classify(data, point) {
-  // Get all the points on the chart
-  const points = data.map((d) => d.features);
-  // Get indices of the k nearest points on the chart to current point
-  const indices = getNearest(point, points, (k = 10));
-  const nearestDrawings = indices.map((ind) => data[ind]);
-  const labels = nearestDrawings.map((d) => d.label);
-  const counts = {};
-  for (const label of labels) {
-    counts[label] = counts[label] ? counts[label] + 1 : 1;
-  }
-  const max = Math.max(...Object.values(counts));
-  const label = labels.find((l) => counts[l] == max);
-  return { label, nearestDrawings };
 }

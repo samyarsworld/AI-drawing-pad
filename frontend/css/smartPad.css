@@ -27,6 +27,7 @@
   border-radius: 10%;
   margin: 1px;
   overflow: hidden;
+  max-width: 8%;
 }
 
 .drawing {
@@ -64,6 +65,10 @@
   color: white;
   font-size: 30px;
   position: relative;
+}
+
+.flagged {
+  background-color: red !important;
 }
 
 @media only screen and (max-width: 1000px) {

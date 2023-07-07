@@ -23,29 +23,32 @@ fileNames.forEach((fileName) => {
   const { student: user, session: token, drawings: userDrawings } = data;
 
   for (let label in userDrawings) {
-    // Generate PNG image file for each drawing
-    imageGenerator(
-      constants.IMAGES_DIR + "/" + id + ".png",
-      userDrawings[label]
-    );
+    if (!constants.flaggedSamples.includes(id)) {
+      // Generate PNG image file for each drawing
+      imageGenerator(
+        constants.IMAGES_DIR + "/" + id + ".png",
+        userDrawings[label]
+      );
 
-    // Generate JSON files for each drawing
-    fs.writeFileSync(
-      constants.JSON_DIR + "/" + id + ".json",
-      JSON.stringify(userDrawings[label])
-    );
+      // Generate JSON files for each drawing
+      fs.writeFileSync(
+        constants.JSON_DIR + "/" + id + ".json",
+        JSON.stringify(userDrawings[label])
+      );
 
-    // Add the important features to the drawing meta data
-    const features = activeFeatureFunctions.map((f) => f(userDrawings[label]));
-
-    drawingsMetaData.push({
-      id: id,
-      label: label,
-      user: user,
-      user_id: token,
-      features: features,
-      correct: "NA",
-    });
+      // Add the important features to the drawing meta data
+      const features = activeFeatureFunctions.map((f) =>
+        f(userDrawings[label])
+      );
+      drawingsMetaData.push({
+        id: id,
+        label: label,
+        user: user,
+        user_id: token,
+        features: features,
+        correct: "NA",
+      });
+    }
 
     // Log the progress of generating images
     process.stdout.clearLine();

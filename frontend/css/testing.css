@@ -1,7 +1,16 @@
+#decisionContainer {
+  position: fixed;
+  top: 50%;
+  right: 50px;
+  transform: translate(0, -50%);
+  width: 500px;
+  height: 500px;
+  background-color: white;
+  color: black;
+}
+
 #testDrawingsContainer {
-  width: 90%;
-  margin-left: auto;
-  margin-right: auto;
+  width: calc(100% - 600px);
 }
 
 #testDrawingsContainer > .row {
@@ -9,5 +18,43 @@
 }
 
 .correct {
-  background-color: rgb(94, 180, 94) !important;
+  background-color: rgb(94, 180, 94);
+}
+
+table {
+  border-collapse: collapse;
+  text-align: center;
+  margin-left: 50px;
+  margin-top: 50px;
+}
+
+td {
+  width: 50px;
+  height: 50px;
+  padding: 0;
+}
+
+#cols-title {
+  height: 50px;
+  display: flex;
+  margin-left: 25px;
+  align-items: center;
+  position: absolute;
+  font-size: 20px;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+
+#rows-title {
+  height: 50px;
+  display: flex;
+  margin-left: 25px;
+  margin-bottom: 25px;
+  align-items: center;
+  position: absolute;
+  font-size: 20px;
+  top: 50%;
+  left: 0;
+  transform: translate(-50%, 0) rotate(-90deg);
 }

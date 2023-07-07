@@ -16,12 +16,17 @@ function createRow(container, userName, metaData) {
 
     // Handle click to show the corresponding drawing on the chart as well
     if (container.id == "drawingsContainer") {
-      drawingContainer.onclick = () => handleDrawingClick(drawingMetaData);
+      drawingContainer.onclick = (evt) => {
+        if (evt.ctrlKey) {
+          flagDrawing(drawingMetaData);
+        } else {
+          handleDrawingClick(drawingMetaData);
+        }
+      };
     }
     drawingContainer.classList.add("drawing-container");
 
     if (correct != "NA" && correct) {
-      console.log("hey");
       drawingContainer.style.backgroundColor = "lightgreen";
     }
 

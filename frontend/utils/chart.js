@@ -6,6 +6,7 @@ class Chart {
     this.styles = options.styles;
     this.icon = options.icon;
     this.onClick = onClick;
+    this.bg = options.bg;
 
     this.canvas = document.createElement("canvas");
     this.canvas.width = options.size;
@@ -14,6 +15,19 @@ class Chart {
     container.appendChild(this.canvas);
 
     this.ctx = this.canvas.getContext("2d");
+    this.ctx.imageSmoothingEnabled = false;
+
+    // For faster reload
+    // this.overlayCanvas = document.createElement("canvas");
+    // this.overlayCanvas.width = options.size;
+    // this.overlayCanvas.height = options.size;
+    // this.overlayCanvas.style.position = "absolute";
+    // this.overlayCanvas.style.left = "0px";
+    // this.overlayCanvas.style.pointerEvents = "none";
+    // container.appendChild(this.overlayCanvas);
+
+    // this.overlayCtx = this.overlayCanvas.getContext("2d");
+    // this.overlayCtx.imageSmoothingEnabled = false;
 
     this.margin = options.size * 0.11;
     this.transparency = options.transparency || 1;
@@ -191,6 +205,12 @@ class Chart {
   #draw() {
     const { ctx, canvas } = this;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    const topLeft = math.remapPoint(this.dataBounds, this.pixelBounds, [0, 1]);
+    const imgSize =
+      (canvas.width - this.margin * 2) / this.dataTrans.scale ** 2;
+
+    ctx.drawImage(this.bg, ...topLeft, imgSize, imgSize);
 
     ctx.globalAlpha = this.transparency;
     this.#drawSamples(this.samples);

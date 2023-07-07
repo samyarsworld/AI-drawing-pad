@@ -5,6 +5,16 @@ body {
   overscroll-behavior: none;
   overflow-x: hidden;
   text-decoration: none;
+
+  /**compatibility*/
+  touch-action: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
 }
 
 .main {
