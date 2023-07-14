@@ -43,6 +43,22 @@ GUI of the SmartPad webapp: To be added)
 <p align="center"><img src="" width="600"/>
 </p>
 
+| Contribute View  |
+|:----------------------|
+|<img src="https://drive.google.com/file/d/1VbTyRkJDBNNmTInnR5CTRdfiDEj2Nw1N/view?usp=sharing" width="100%" height="100%"/> |
+
+| SmartPad View |
+|:----------------------|
+<img src="https://drive.google.com/file/d/16VeKMkOVKzkdyPB9xOiyw2P0diema6GI/view?usp=sharing" width="100%" height="100%"/> |
+
+| Testing View |
+|:----------------------|
+<img src="https://drive.google.com/file/d/16jXgCV_iFkLh3KRwsyV_i7tRC_Y2XfcZ/view?usp=sharing" width="100%" height="100%"/> |
+
+| Predicting View |
+|:----------------------|
+<img src="https://drive.google.com/file/d/1aQAQbi4Lb4Q53l8sv_sm45eRyAW4SaPA/view?usp=sharing" width="100%" height="100%"/> |
+
 
 <a name="tech"></a>
 ## Technologies
