@@ -33,6 +33,8 @@ We could train a model using all of the data, but it's common practice in superv
 4- Supervised machine learning: Classification algorithms in supervised learning predict to which category, or class, an observation belongs.
 Supervised machine learning techniques involve training a model to operate on a set of features and predict a label using a dataset that includes some already-known label values. The training process fits the features to the known labels to define a general function that can be applied to new features for which the labels are unknown and predict them. 
 
+5- Confusion Matrix
+
 The main features include:
 
 * Object-oriented design in JavaScript
