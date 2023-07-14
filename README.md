@@ -27,7 +27,8 @@ The first step in any machine learning project is to explore the data that you w
 
 We could train a model using all of the data; but it's common practice in supervised learning to split the data into two subsets; a (typically larger) set with which to train the model, and a smaller "hold-back" set with which to validate the trained model. This enables us to evaluate how well the model performs when used with the validation dataset by comparing the predicted labels to the known labels.
 
-2- Supervised machine learning: Classification algorithms in supervised learning predict to which category, or class, an observation belongs.
+2- Preprocessing data: Scaling
+3- Supervised machine learning: Classification algorithms in supervised learning predict to which category, or class, an observation belongs.
 Supervised machine learning techniques involve training a model to operate on a set of features and predict a label using a dataset that includes some already-known label values. The training process fits the features to the known labels to define a general function that can be applied to new features for which the labels are unknown and predict them. 
 
 The main features include:
