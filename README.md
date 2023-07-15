@@ -50,19 +50,19 @@ GUI of the SmartPad webapp: To be added)
 
 | Contribute View  |
 |:----------------------|
-|<img src="https://drive.google.com/file/d/1VbTyRkJDBNNmTInnR5CTRdfiDEj2Nw1N/view?usp=sharing" width="100%" height="100%"/> |
+|<img src="https://drive.google.com/uc?export=view&id=" width="100%" height="100%"/> |
 
 | SmartPad View |
 |:----------------------|
-<img src="https://drive.google.com/file/d/16VeKMkOVKzkdyPB9xOiyw2P0diema6GI/view?usp=drive_link" width="100%" height="100%"/> |
+<img src="https://drive.google.com/uc?export=view&id=16VeKMkOVKzkdyPB9xOiyw2P0diema6GI" width="100%" height="100%"/> |
 
 | Testing View |
 |:----------------------|
-<img src="https://drive.google.com/file/d/16jXgCV_iFkLh3KRwsyV_i7tRC_Y2XfcZ/view?usp=sharing" width="100%" height="100%"/> |
+<img src="https://drive.google.com/uc?export=view&id=" width="100%" height="100%"/> |
 
 | Predicting View |
 |:----------------------|
-<img src="https://drive.google.com/file/d/1aQAQbi4Lb4Q53l8sv_sm45eRyAW4SaPA/view?usp=sharing" width="100%" height="100%"/> |
+<img src="https://drive.google.com/uc?export=view&id=" width="100%" height="100%"/> |
 
 
 <a name="tech"></a>
