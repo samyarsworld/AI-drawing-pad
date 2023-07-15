@@ -54,7 +54,7 @@ GUI of the SmartPad webapp: To be added)
 
 | SmartPad View |
 |:----------------------|
-<img src="https://drive.google.com/file/d/16VeKMkOVKzkdyPB9xOiyw2P0diema6GI/view?usp=sharing" width="100%" height="100%"/> |
+<img src="https://drive.google.com/file/d/16VeKMkOVKzkdyPB9xOiyw2P0diema6GI/view?usp=drive_link" width="100%" height="100%"/> |
 
 | Testing View |
 |:----------------------|
