@@ -20,7 +20,9 @@ A link to the live website can be found here: .....
 
 <a name="about"></a>
 ## About
-Steps taken to design this project:
+The steps taken to design this project:
+
+It's common practice to train the model using a subset of the data, while holding back some data with which to test the trained model. This enables us to compare the labels that the model predicts with the actual known labels in the original dataset. 
 
 1- Explore Data: 
 The first step in any machine learning project is to explore the data that you will use to train a model. The goal of this exploration is to try to understand the relationships between its attributes; in particular, any apparent correlation between the features and the label your model will try to predict. This may require some work to detect and fix issues in the data (such as dealing with missing values, errors, or outlier values), deriving new feature columns by transforming or combining existing features (a process known as feature engineering), normalizing numeric features (values you can measure or count) so they're on a similar scale, and encoding categorical features (values that represent discrete categories) as numeric indicators.
