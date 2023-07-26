@@ -11,6 +11,7 @@ const sortedTestingMetaData = groupBy(testingDrawingsMetaData, "user_id");
 let correctCount = 0;
 let totalCount = testingDrawingsMetaData.length;
 
+// Classify each image
 for (let drawing of testingDrawingsMetaData) {
   const { label } = classify(
     classifier,

@@ -1,4 +1,4 @@
-flaggedDrawings = [];
+const flaggedDrawings = [];
 
 function flagDrawing(drawing) {
   if (flaggedDrawings.includes(drawing.id)) {

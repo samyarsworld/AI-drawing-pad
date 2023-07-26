@@ -22,3 +22,5 @@ const LABELS = [
 ];
 
 const IMG_DIR = "../data/dataset/images/";
+
+const classifier = "KNN";
