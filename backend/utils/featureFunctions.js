@@ -50,6 +50,7 @@ function normalizedFeaturePoints(featurePoints, minMax) {
   for (let i = 0; i < featurePoints.length; i++) {
     for (let j = 0; j < dimensions; j++) {
       // Change the features by reference
+      // Simple normalization technique is used (Z-score normalization could be used later to see if it improves the results)
       featurePoints[i][j] = (featurePoints[i][j] - min[j]) / (max[j] - min[j]);
     }
   }

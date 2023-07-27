@@ -29,7 +29,7 @@ class Chart {
     // this.overlayCtx = this.overlayCanvas.getContext("2d");
     // this.overlayCtx.imageSmoothingEnabled = false;
 
-    this.margin = options.size * 0.11;
+    this.margin = options.size * 0.1;
     this.transparency = options.transparency || 1;
 
     this.dataTrans = {
@@ -53,7 +53,9 @@ class Chart {
     this.realTimeFeatures = null;
     this.nearestDrawings = null;
 
-    this.#draw();
+    this.bg.onload = () => {
+      this.#draw();
+    };
 
     this.#addEventListeners();
   }

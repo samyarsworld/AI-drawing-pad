@@ -5,10 +5,12 @@ math.equals = (p1, p2) => {
 };
 
 math.lerp = (a, b, t) => {
+  // Fractional t, returns a number between a and b
   return a + (b - a) * t;
 };
 
 math.invLerp = (a, b, v) => {
+  // Returns the fractional position of v in the lower and upper bounds of a and b, respectively
   return (v - a) / (b - a);
 };
 
