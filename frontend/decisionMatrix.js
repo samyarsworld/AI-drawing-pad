@@ -18,8 +18,8 @@ class DecisionMatrix {
     }
 
     for (let drawing of this.drawings) {
-      const indTrue = LABELS.indexOf(drawing.realLabel) + 1;
-      const indRes = LABELS.indexOf(drawing.label) + 1;
+      const indTrue = LABELS.indexOf(drawing.label) + 1;
+      const indRes = LABELS.indexOf(drawing.predictedLabel) + 1;
       this.matrix[indTrue][indRes] += 1;
     }
 

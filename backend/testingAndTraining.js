@@ -2,10 +2,12 @@
 /// half will be tested with respect to their actual labels using the first half of the data
 const fs = require("fs");
 const ff = require("./utils/featureFunctions");
+const { classify } = require("./utils/classifiers.js");
+const { groupBy } = require("./utils/common.js");
 
 const constants = require("./utils/constants");
 
-function test(drawingsMetaData, featureNames) {
+function test(drawingsMetaData, featureNames, classifier) {
   const trainingAmount = Math.floor(drawingsMetaData.length / 2);
   trainingData = [];
   testingData = [];
@@ -15,32 +17,52 @@ function test(drawingsMetaData, featureNames) {
   }
 
   for (let i = trainingAmount; i < drawingsMetaData.length; i++) {
-    drawingsMetaData[i].realLabel = drawingsMetaData[i].label;
-    drawingsMetaData[i].label = "?";
     testingData.push(drawingsMetaData[i]);
   }
 
+  // Calculate minMax
   const minMaxTraining = ff.normalizedFeaturePoints(
     trainingData.map((d) => d.features)
   );
 
+  // Normalize the testing data
   ff.normalizedFeaturePoints(
     testingData.map((d) => d.features),
     minMaxTraining
   );
 
+  // Classify each testing image
+  let correctCount = 0;
+  let totalCount = testingData.length;
+  for (let drawing of testingData) {
+    const { label } = classify(classifier, trainingData, drawing.features);
+    drawing.predictedLabel = label;
+    drawing.correct = drawing.predictedLabel == drawing.label;
+    if (drawing.correct) {
+      correctCount += 1;
+    }
+  }
+
+  // Group drawings meta data using user_id
+  const sortedTrainingMetaData = groupBy(trainingData, "user_id");
+  const sortedTestingMetaData = groupBy(testingData, "user_id");
+
   fs.writeFileSync(
     constants.DATASET_DIR + "/trainingSet.js",
     "const trainingSet = " +
       JSON.stringify({
-        trainingDrawingsMetaData: trainingData,
-        minMaxTraining,
+        sortedTrainingMetaData,
       })
   );
   fs.writeFileSync(
     constants.DATASET_DIR + "/testingSet.js",
     "const testingSet = " +
-      JSON.stringify({ featureNames, testingDrawingsMetaData: testingData })
+      JSON.stringify({
+        featureNames,
+        sortedTestingMetaData,
+        testingDrawingsMetaData: testingData,
+        accuracy: (correctCount / totalCount) * 100,
+      })
   );
 }
 

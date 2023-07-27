@@ -1,16 +1,3 @@
-// Used to group drawings by the user
-function groupBy(dataset, key) {
-  const sortedDataset = new Map();
-  dataset.forEach((data) => {
-    const value = data[key];
-    if (!sortedDataset[value]) {
-      sortedDataset[value] = [];
-    }
-    sortedDataset[value].push(data);
-  });
-  return sortedDataset;
-}
-
 // Used to calculate distance between two points on the chart
 function distance(point1, point2) {
   return Math.sqrt((point1[0] - point2[0]) ** 2 + (point1[1] - point2[1]) ** 2);

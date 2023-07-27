@@ -1,9 +1,10 @@
-RAW_DATA_DIR = "../data/raw";
-DATASET_DIR = "../data/dataset";
-IMAGES_DIR = DATASET_DIR + "/images";
-JSON_DIR = DATASET_DIR + "/json";
-NUM_OF_LABELS = 8;
-CANVAS_SIZE = 400;
+const RAW_DATA_DIR = "../data/raw";
+const DATASET_DIR = "../data/dataset";
+const IMAGES_DIR = DATASET_DIR + "/images";
+const JSON_DIR = DATASET_DIR + "/json";
+const NUM_OF_LABELS = 8;
+const CANVAS_SIZE = 400;
+const classifier = "KNN";
 
 const STYLES = {
   car: { color: "blue", text: "🚙" },
@@ -50,4 +51,5 @@ module.exports = {
   CANVAS_SIZE,
   STYLES,
   flaggedSamples,
+  classifier,
 };

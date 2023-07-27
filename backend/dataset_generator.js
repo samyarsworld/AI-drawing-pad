@@ -43,10 +43,11 @@ fileNames.forEach((fileName) => {
       drawingsMetaData.push({
         id: id,
         label: label,
+        predictedLabel: label,
+        correct: false,
         user: user,
         user_id: token,
         features: features,
-        correct: "NA",
       });
     }
 
@@ -75,7 +76,7 @@ fs.writeFileSync(
 );
 
 // Create testing and training files
-test(drawingsMetaData, featureNames);
+test(drawingsMetaData, featureNames, constants.classifier);
 
 // Generate images
 function imageGenerator(filePath, drawing) {
@@ -95,5 +96,3 @@ function imageGenerator(filePath, drawing) {
   const buffer = canvas.toBuffer("image/png");
   fs.writeFileSync(filePath, buffer);
 }
-
-module.exports = { drawingsMetaData };

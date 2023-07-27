@@ -26,7 +26,8 @@ function createRow(container, userName, metaData) {
     }
     drawingContainer.classList.add("drawing-container");
 
-    if (correct != "NA" && correct) {
+    // Update correct drawing background color
+    if (correct) {
       drawingContainer.style.backgroundColor = "lightgreen";
     }
 

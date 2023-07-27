@@ -2,25 +2,28 @@
 const drawingsContainer = document.getElementById("drawingsContainer");
 const chartContainer = document.getElementById("chartContainer");
 const smartPadContainer = document.getElementById("smartPadContainer");
+const decisionContainer = document.getElementById("decisionContainer");
 
-// Destruct data from dataset which stores meta data of all drawings, minMax for scale, and selected feature names
+// Destruct data from dataset, sorted testing set and sorted training set
 const { featureNames, drawingsMetaData, minMax } = dataset;
-
-// Group drawings meta data using user_id
-const sortedMetaData = groupBy(drawingsMetaData, "user_id");
+const { sortedTestingMetaData, testingDrawingsMetaData, accuracy } = testingSet;
+const { sortedTrainingMetaData } = trainingSet;
 
 // Create rows of drawings of each user
-for (const user_id in sortedMetaData) {
-  const metaData = sortedMetaData[user_id];
-  const user = metaData[0].user;
-  createRow(drawingsContainer, user, metaData);
+for (const user_id in sortedTestingMetaData) {
+  const user = sortedTestingMetaData[user_id][0].user;
+  createRow(drawingsContainer, user, sortedTestingMetaData[user_id]);
+}
+for (const user_id in sortedTrainingMetaData) {
+  const user = sortedTrainingMetaData[user_id][0].user;
+  createRow(drawingsContainer, user, sortedTrainingMetaData[user_id]);
 }
 
 // Create chart
 graphics.generateImages(STYLES);
 
 const options = {
-  size: 400,
+  size: 500,
   axisLabels: featureNames,
   styles: STYLES,
   transparency: 0.7,
@@ -53,3 +56,14 @@ function drawingUpdate(drawing) {
   predictedLabelContainer.innerHTML = "Is it a " + label + " ?";
   chart.showRealTimeDrawing(point, label, nearestDrawings);
 }
+
+// Testing page
+// Add accuracy info to the webpage
+const testingSub = document.getElementById("testing-subtitle");
+testingSub.innerHTML = `Accuracy rate is ${accuracy}%`;
+
+// Display decision matrix
+const decisionMatrix = new DecisionMatrix(
+  decisionContainer,
+  testingDrawingsMetaData
+);
