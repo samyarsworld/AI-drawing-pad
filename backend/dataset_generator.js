@@ -4,6 +4,7 @@ const ff = require("./utils/featureFunctions");
 const { createCanvas } = require("canvas");
 const { test } = require("./testingAndTraining.js");
 const geometry = require("./utils/geometry.js");
+const { draw } = require("./utils/common.js");
 
 const canvas = createCanvas(constants.CANVAS_SIZE, constants.CANVAS_SIZE);
 const ctx = canvas.getContext("2d");
@@ -103,19 +104,20 @@ function imageGenerator(filePath, drawing) {
   const RGB = `rgb(${r},${g},${b})`;
   draw(ctx, convexHull, RGB);
 
+  //// To display scales drawings
+  // const pixels = ff.getPixels(drawing);
+  // const size = Math.sqrt(pixels.length);
+  // const imgData = ctx.getImageData(0, 0, size, size);
+  // for (let i = 0; i < pixels.length; i++) {
+  //   const alpha = pixels[i];
+  //   const startIndex = i * 4;
+  //   imgData.data[startIndex] = 0;
+  //   imgData.data[startIndex + 1] = 0;
+  //   imgData.data[startIndex + 2] = 0;
+  //   imgData.data[startIndex + 3] = alpha;
+  // }
+  // ctx.putImageData(imgData, 0, 0);
+
   const buffer = canvas.toBuffer("image/png");
   fs.writeFileSync(filePath, buffer);
-}
-
-function draw(ctx, points, color = "black") {
-  ctx.strokeStyle = color;
-  ctx.lineWidth = 3;
-  ctx.beginPath();
-  ctx.lineCap = "round";
-  ctx.lineJoin = "round";
-  ctx.moveTo(points[0][0], points[0][1]);
-  for (let i = 1; i < points.length; i++) {
-    ctx.lineTo(points[i][0], points[i][1]);
-  }
-  ctx.stroke();
 }

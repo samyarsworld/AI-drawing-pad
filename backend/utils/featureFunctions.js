@@ -1,4 +1,7 @@
 const geometry = require("./geometry.js");
+const math = require("./math.js");
+
+const { draw } = require("./common.js");
 
 const ff = {};
 
@@ -27,6 +30,47 @@ ff.getDrawingHeight = (drawing) => {
   return maxY - minY;
 };
 
+ff.getPixels = (drawing, size = 400, scale = true) => {
+  const { createCanvas } = require("canvas");
+  let canvas = createCanvas(size, size);
+  const ctx = canvas.getContext("2d");
+
+  // Scales the drawings to expand to the entire canvas width and height
+  if (scale) {
+    const points = drawing.flat();
+    const bounds = {
+      left: Math.min(...points.map((p) => p[0])),
+      right: Math.max(...points.map((p) => p[0])),
+      top: Math.min(...points.map((p) => p[1])),
+      bottom: Math.max(...points.map((p) => p[1])),
+    };
+
+    const newDrawing = [];
+    for (const path of drawing) {
+      const newPoints = path.map((p) => [
+        math.invLerp(bounds.left, bounds.right, p[0]) * size,
+        math.invLerp(bounds.top, bounds.bottom, p[1]) * size,
+      ]);
+      newDrawing.push(newPoints);
+    }
+    for (const segment of newDrawing) {
+      draw(ctx, segment);
+    }
+  } else {
+    for (const segment of drawing) {
+      draw(ctx, segment);
+    }
+  }
+
+  const imgData = ctx.getImageData(0, 0, size, size);
+  return imgData.data.filter((val, index) => index % 4 == 3); // Returns 4th element which is alpha (visibility)
+};
+
+ff.getComplexity = (drawing, size, scale) => {
+  const pixels = ff.getPixels(drawing, size, scale);
+  return pixels.filter((alpha) => alpha != 0).length;
+};
+
 ff.getElongation = (drawing) => {
   const allPoints = drawing.flat();
   const { width, height } = geometry.minBoundingBox({ points: allPoints });
@@ -46,6 +90,7 @@ ff.active = [
   { featureName: "Drawing Height", function: ff.getDrawingHeight },
   { featureName: "Elongation", function: ff.getElongation },
   { featureName: "Roundness", function: ff.getRoundness },
+  { featureName: "Complexity", function: ff.getComplexity },
 ];
 
 // Normalize feature points
