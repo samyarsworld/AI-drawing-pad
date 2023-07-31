@@ -3,11 +3,12 @@ const fs = require("fs");
 const ff = require("./utils/featureFunctions");
 const { createCanvas } = require("canvas");
 const { test } = require("./testingAndTraining.js");
+const geometry = require("./utils/geometry.js");
 
 const canvas = createCanvas(constants.CANVAS_SIZE, constants.CANVAS_SIZE);
 const ctx = canvas.getContext("2d");
 
-const fileNames = fs.readdirSync(constants.RAW_DATA_DIR);
+const fileNames = fs.readdirSync(constants.RAW_DATA_DIR).slice(0, 1);
 const totalDrawings = fileNames.length * constants.NUM_OF_LABELS;
 const drawingsMetaData = [];
 const featureNames = ff.active.map((f) => f.featureName);
@@ -82,17 +83,39 @@ test(drawingsMetaData, featureNames, constants.classifier);
 function imageGenerator(filePath, drawing) {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   for (const segment of drawing) {
-    ctx.strokeStyle = "black";
-    ctx.lineWidth = 3;
-    ctx.beginPath();
-    ctx.lineCap = "round";
-    ctx.lineJoin = "round";
-    ctx.moveTo(segment[0][0], segment[0][1]);
-    for (let i = 1; i < segment.length; i++) {
-      ctx.lineTo(segment[i][0], segment[i][1]);
-    }
-    ctx.stroke();
+    draw(ctx, segment);
   }
+
+  let { vertices, convexHull } = geometry.minBoundingBox({
+    points: drawing.flat(),
+  });
+
+  // Draw minimum bounding box
+  vertices = [...vertices, vertices[0]];
+  draw(ctx, vertices, "green");
+
+  // Draw convex hull while color is based on roundness (more round, more red)
+  convexHull = [...convexHull, convexHull[0]];
+  const roundness = geometry.roundness(convexHull) ** 4; // Power 4 is to emphasize on the roundness more
+  const r = Math.floor(roundness * 255);
+  const g = 0;
+  const b = Math.floor((1 - roundness) * 255);
+  const RGB = `rgb(${r},${g},${b})`;
+  draw(ctx, convexHull, RGB);
+
   const buffer = canvas.toBuffer("image/png");
   fs.writeFileSync(filePath, buffer);
+}
+
+function draw(ctx, points, color = "black") {
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.lineCap = "round";
+  ctx.lineJoin = "round";
+  ctx.moveTo(points[0][0], points[0][1]);
+  for (let i = 1; i < points.length; i++) {
+    ctx.lineTo(points[i][0], points[i][1]);
+  }
+  ctx.stroke();
 }

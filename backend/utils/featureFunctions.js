@@ -1,37 +1,55 @@
+const geometry = require("./geometry.js");
+
+const ff = {};
+
 // Feature functions
-function getDrawingSegmentCount(drawing) {
+ff.getDrawingSegmentCount = (drawing) => {
   return drawing.length;
-}
+};
 
-function getDrawingPointCount(drawing) {
+ff.getDrawingPointCount = (drawing) => {
   return drawing.flat().length;
-}
+};
 
-function getDrawingWidth(drawing) {
+ff.getDrawingWidth = (drawing) => {
   const allPoints = drawing.flat();
   const allX = allPoints.map((p) => p[0]);
   const minX = Math.min(...allX);
   const maxX = Math.max(...allX);
   return maxX - minX;
-}
+};
 
-function getDrawingHeight(drawing) {
+ff.getDrawingHeight = (drawing) => {
   const allPoints = drawing.flat();
   const allY = allPoints.map((p) => p[1]);
   const minY = Math.min(...allY);
   const maxY = Math.max(...allY);
   return maxY - minY;
-}
+};
 
-const active = [
+ff.getElongation = (drawing) => {
+  const allPoints = drawing.flat();
+  const { width, height } = geometry.minBoundingBox({ points: allPoints });
+  return (Math.max(width, height) + 1) / (Math.min(width, height) + 1); // Add 1 to avoid division by 0
+};
+
+ff.getRoundness = (drawing) => {
+  const allPoints = drawing.flat();
+  const { convexHull } = geometry.minBoundingBox({ points: allPoints });
+  return geometry.roundness(convexHull);
+};
+
+ff.active = [
   //{featureName:"Segment Count",function:getDrawingSegmentCount},
   //{featureName:"Point Count",function:getDrawingPointCount},
-  { featureName: "Drawing Width", function: getDrawingWidth },
-  { featureName: "Drawing Height", function: getDrawingHeight },
+  { featureName: "Drawing Width", function: ff.getDrawingWidth },
+  { featureName: "Drawing Height", function: ff.getDrawingHeight },
+  { featureName: "Elongation", function: ff.getElongation },
+  { featureName: "Roundness", function: ff.getRoundness },
 ];
 
 // Normalize feature points
-function normalizedFeaturePoints(featurePoints, minMax) {
+ff.normalizedFeaturePoints = (featurePoints, minMax) => {
   let min, max;
   const dimensions = featurePoints[0].length;
   if (minMax) {
@@ -55,13 +73,6 @@ function normalizedFeaturePoints(featurePoints, minMax) {
     }
   }
   return { min, max };
-}
-
-module.exports = {
-  active,
-  getDrawingSegmentCount,
-  getDrawingPointCount,
-  getDrawingWidth,
-  getDrawingHeight,
-  normalizedFeaturePoints,
 };
+
+module.exports = ff;

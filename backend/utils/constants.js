@@ -1,12 +1,13 @@
-const RAW_DATA_DIR = "../data/raw";
-const DATASET_DIR = "../data/dataset";
-const IMAGES_DIR = DATASET_DIR + "/images";
-const JSON_DIR = DATASET_DIR + "/json";
-const NUM_OF_LABELS = 8;
-const CANVAS_SIZE = 400;
-const classifier = "KNN";
+const constants = {};
+constants.RAW_DATA_DIR = "../data/raw";
+constants.DATASET_DIR = "../data/dataset";
+constants.IMAGES_DIR = constants.DATASET_DIR + "/images";
+constants.JSON_DIR = constants.DATASET_DIR + "/json";
+constants.NUM_OF_LABELS = 8;
+constants.CANVAS_SIZE = 400;
+constants.classifier = "KNN";
 
-const STYLES = {
+constants.STYLES = {
   car: { color: "blue", text: "🚙" },
   clock: { color: "red", text: "🕐" },
   fish: { color: "cyan", text: "🐟" },
@@ -17,7 +18,7 @@ const STYLES = {
   guitar: { color: "lightgray", text: "🎸" },
 };
 
-const flaggedSamples = [
+constants.flaggedSamples = [
   121, 217, 305, 433, 434, 435, 436, 437, 438, 439, 440, 379, 381, 561, 657,
   705, 801, 881, 1033, 1257, 1258, 1259, 1261, 1260, 1262, 1263, 1264, 1361,
   1481, 1482, 1483, 1484, 1485, 1486, 1487, 1488, 1609, 1801, 1889, 1937, 1969,
@@ -42,14 +43,4 @@ const flaggedSamples = [
   800, 640, 5627, 5628, 5629, 5712,
 ];
 
-module.exports = {
-  RAW_DATA_DIR,
-  DATASET_DIR,
-  IMAGES_DIR,
-  JSON_DIR,
-  NUM_OF_LABELS,
-  CANVAS_SIZE,
-  STYLES,
-  flaggedSamples,
-  classifier,
-};
+module.exports = constants;

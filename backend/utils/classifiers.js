@@ -1,4 +1,4 @@
-const { math } = require("./math.js");
+const math = require("./math.js");
 
 function classify(classifier, data, point) {
   switch (classifier) {

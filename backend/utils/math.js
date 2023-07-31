@@ -47,8 +47,14 @@ math.scale = (p, scaler) => {
   return [p[0] * scaler, p[1] * scaler];
 };
 
+// Calculates Euclidean distance
 math.distance = (p1, p2) => {
-  return Math.sqrt((p1[0] - p2[0]) ** 2 + (p1[1] - p2[1]) ** 2);
+  let dist = 0;
+  // Valid for n dimensions
+  for (let i = 0; i < p1.length; i++) {
+    dist += (p1[i] - p2[i]) ** 2;
+  }
+  return Math.sqrt(dist);
 };
 
 math.formatNumber = (n, dec = 0) => {
@@ -82,4 +88,4 @@ math.getNearest = (loc, points, k = 1) => {
 //   return nearestIndex;
 // };
 
-module.exports = { math };
+module.exports = math;
