@@ -21,12 +21,12 @@ function test(drawingsMetaData, featureNames, classifier) {
   }
 
   // Calculate minMax
-  const minMaxTraining = ff.normalizedFeaturePoints(
+  const minMaxTraining = ff.normalizeFeatures(
     trainingData.map((d) => d.features)
   );
 
   // Normalize the testing data
-  ff.normalizedFeaturePoints(
+  ff.normalizeFeatures(
     testingData.map((d) => d.features),
     minMaxTraining
   );

@@ -94,27 +94,27 @@ ff.active = [
 ];
 
 // Normalize feature points
-ff.normalizedFeaturePoints = (featurePoints, minMax) => {
+ff.normalizeFeatures = (features, minMax) => {
   let min, max;
-  const dimensions = featurePoints[0].length;
+  const dimensions = features[0].length;
   if (minMax) {
     min = minMax.min;
     max = minMax.max;
   } else {
-    min = [...featurePoints[0]];
-    max = [...featurePoints[0]];
-    for (let i = 1; i < featurePoints.length; i++) {
+    min = [...features[0]];
+    max = [...features[0]];
+    for (let i = 1; i < features.length; i++) {
       for (let j = 0; j < dimensions; j++) {
-        min[j] = Math.min(min[j], featurePoints[i][j]);
-        max[j] = Math.max(max[j], featurePoints[i][j]);
+        min[j] = Math.min(min[j], features[i][j]);
+        max[j] = Math.max(max[j], features[i][j]);
       }
     }
   }
-  for (let i = 0; i < featurePoints.length; i++) {
+  for (let i = 0; i < features.length; i++) {
     for (let j = 0; j < dimensions; j++) {
       // Change the features by reference
       // Simple normalization technique is used (Z-score normalization could be used later to see if it improves the results)
-      featurePoints[i][j] = (featurePoints[i][j] - min[j]) / (max[j] - min[j]);
+      features[i][j] = (features[i][j] - min[j]) / (max[j] - min[j]);
     }
   }
   return { min, max };

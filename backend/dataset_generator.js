@@ -9,7 +9,7 @@ const { draw } = require("./utils/common.js");
 const canvas = createCanvas(constants.CANVAS_SIZE, constants.CANVAS_SIZE);
 const ctx = canvas.getContext("2d");
 
-const fileNames = fs.readdirSync(constants.RAW_DATA_DIR);
+const fileNames = fs.readdirSync(constants.RAW_DATA_DIR).slice(0, 200);
 const totalDrawings = fileNames.length * constants.NUM_OF_LABELS;
 const drawingsMetaData = [];
 const featureNames = ff.active.map((f) => f.featureName);
@@ -61,9 +61,7 @@ fileNames.forEach((fileName) => {
   }
 });
 
-const minMax = ff.normalizedFeaturePoints(
-  drawingsMetaData.map((d) => d.features)
-);
+const minMax = ff.normalizeFeatures(drawingsMetaData.map((d) => d.features));
 
 fs.writeFileSync(
   constants.DATASET_DIR + "/dataset.js",
