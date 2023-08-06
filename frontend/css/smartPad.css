@@ -8,15 +8,16 @@
 .row {
   display: flex;
   align-items: center;
-  margin-left: 50px;
 }
 
 .row-label {
-  flex: 1 1 0;
+  flex: 2 1 0;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
   color: white;
+  max-width: 15%;
+  margin-left: 3rem;
 }
 
 .drawing-container {
@@ -156,6 +157,8 @@ td {
     top: 0;
     transform: translate(0, 0);
     margin-bottom: 100px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   #drawingsContainer {

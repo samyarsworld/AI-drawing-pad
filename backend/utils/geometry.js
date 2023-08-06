@@ -159,7 +159,10 @@ geometry.roundness = (polygon) => {
   const R = perimeter / (2 * Math.PI); // P = 2*PI*R
   const circleArea = Math.PI * R ** 2; // A = PI*R**2
   // Area at most will be circle area as circle has the largest area with a given perimeter
-  const roundness = area / (circleArea || 10 ** 10);
+  const roundness = area / circleArea;
+  if (isNaN(roundness)) {
+    return 0;
+  }
   return roundness;
 };
 

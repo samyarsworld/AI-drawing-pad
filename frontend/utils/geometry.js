@@ -191,5 +191,3 @@ geometry.triangleArea = (a, b, c) => {
   const p = (ab + bc + ca) / 2;
   return (p * (p - ab) * (p - bc) * (p - ca)) ** 0.5;
 };
-
-module.exports = geometry;

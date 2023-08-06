@@ -21,83 +21,123 @@ const smartPadSubtitle = document.getElementById("smartPad-subtitle");
 let isSmartPad = true;
 let isTesting = false;
 let isContribute = false;
+let isSketchBtn = false;
 
 smartPadBtn.onclick = () => {
   if (isSmartPad) return;
-  isSmartPad = true;
-  isTesting = false;
-  isContribute = false;
-
-  contributePage.style.display = "none";
-  smartPadPage.style.display = "block";
-
-  // Hide testing elements
-  decisionContainer.style.display = "none";
-  testingH1.style.display = "none";
-  testingSubtitle.style.display = "none";
-  // Show SmartPad elements
-  chartContainer.style.display = "block";
-  smartPadH1.style.display = "block";
-  smartPadSubtitle.style.display = "block";
-  sketchBtn.style.display = "block";
-
-  // Update navbar
-  testingBtn.classList.remove("active");
-  contributeBtn.classList.remove("active");
-  smartPadBtn.classList.add("active");
+  if (isContribute) contributeHide();
+  if (isTesting) testingHide();
+  if (isSketchBtn) sketchBtnOff();
+  smartPadShow();
 };
 
 testingBtn.onclick = () => {
   if (isTesting) return;
-  isTesting = true;
-  isContribute = false;
-  isSmartPad = false;
+  if (isContribute) contributeHide();
+  if (isSmartPad) smartPadHide();
+  if (isSketchBtn) sketchBtnOff();
+  testingShow();
+};
 
-  contributePage.style.display = "none";
+contributeBtn.onclick = () => {
+  if (isContribute) return;
+  if (isTesting) testingHide();
+  if (isSmartPad) smartPadHide();
+  if (isSketchBtn) sketchBtnOff();
+  contributeShow();
+};
+
+sketchBtn.onclick = () => {
+  if (isSketchBtn) {
+    sketchBtnOff();
+  } else {
+    sketchBtnOn();
+  }
+};
+
+function sketchBtnOff() {
+  smartPadContainer.style.display = "none";
+  sketchBtn.innerHTML = "SKETCH!";
+  sketchBtn.style.backgroundColor = "rgb(170, 32, 142)";
+  chart.hideRealTimeDrawing(); // Hides the CSS and dynamic point associated with the drawing on the pad while the pad is closed
+  isSketchBtn = false;
+}
+
+function sketchBtnOn() {
+  smartPadContainer.style.display = "block";
+  sketchBtn.innerHTML = "DRAWINGS";
+  sketchBtn.style.backgroundColor = "green";
+  smartPad.triggerChartUpdate(); // Update chart to the state of last state of the pad which was maintained before closing
+  isSketchBtn = true;
+}
+
+function smartPadShow() {
+  isSmartPad = true;
+  sketchBtn.style.display = "block";
   smartPadPage.style.display = "block";
+
+  // Show SmartPad elements
+  chartContainer.style.display = "block";
+  smartPadH1.style.display = "block";
+  smartPadSubtitle.style.display = "block";
+
+  // Update navbar
+  smartPadBtn.classList.add("active");
+}
+
+function smartPadHide() {
+  isSmartPad = false;
+  sketchBtn.style.display = "none";
+  smartPadPage.style.display = "none";
 
   // Hide SmartPad elements
   chartContainer.style.display = "none";
   smartPadH1.style.display = "none";
   smartPadSubtitle.style.display = "none";
-  sketchBtn.style.display = "none";
+  smartPadContainer.style.display = "none";
+
+  // Update navbar
+  smartPadBtn.classList.remove("active");
+}
+
+function testingShow() {
+  isTesting = true;
+  smartPadPage.style.display = "block";
+
   // Show testing elements
   decisionContainer.style.display = "block";
   testingH1.style.display = "block";
   testingSubtitle.style.display = "block";
 
   // Update navbar
-  smartPadBtn.classList.remove("active");
-  contributeBtn.classList.remove("active");
   testingBtn.classList.add("active");
-};
+}
 
-contributeBtn.onclick = () => {
-  if (isContribute) return;
-  isContribute = true;
+function testingHide() {
   isTesting = false;
-  isSmartPad = false;
-
-  sketchBtn.style.display = "none";
   smartPadPage.style.display = "none";
+
+  // Hide testing elements
+  decisionContainer.style.display = "none";
+  testingH1.style.display = "none";
+  testingSubtitle.style.display = "none";
+
+  // Update navbar
+  testingBtn.classList.remove("active");
+}
+
+function contributeShow() {
+  isContribute = true;
   contributePage.style.display = "block";
 
   // Update navbar
-  smartPadBtn.classList.remove("active");
-  testingBtn.classList.remove("active");
   contributeBtn.classList.add("active");
-};
+}
 
-sketchBtn.onclick = () => {
-  if (sketchBtn.innerHTML == "SKETCH!") {
-    smartPadContainer.style.display = "block";
-    sketchBtn.innerHTML = "DRAWINGS";
-    sketchBtn.style.backgroundColor = "green";
-    smartPad.triggerChartUpdate(); // Update chart to the state of last state of the pad which was maintained before closing
-  } else {
-    smartPadContainer.style.display = "none";
-    sketchBtn.innerHTML = "SKETCH!";
-    sketchBtn.style.backgroundColor = "rgb(170, 32, 142)";
-    chart.hideRealTimeDrawing(); // Hides the CSS and dynamic point associated with the drawing on the pad while the pad is closed
-  }
-};
+function contributeHide() {
+  isContribute = false;
+  contributePage.style.display = "none";
+
+  // Update navbar
+  contributeBtn.classList.remove("active");
+}
