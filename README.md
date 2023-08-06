@@ -1,6 +1,6 @@
-# AI-drawing-pad
+# SmartPad
 NOT COMPLETE
-## A real-world cutting-edge machine learning and data science projet that classifies the drawn image on a SmartPad.
+## A real-world cutting-edge machine learning and data science project that classifies the drawn image on a SmartPad.
 
 A link to the live website can be found here: .....
 
