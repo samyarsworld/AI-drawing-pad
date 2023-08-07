@@ -41,27 +41,11 @@ class Pad {
     }
   }
 
-  // Draws each segment (array of points) of the drawing
-  #drawSegment(segment) {
-    this.ctx.strokeStyle = this.color;
-    this.ctx.lineWidth = 3;
-    this.ctx.beginPath();
-    this.ctx.lineCap = "round";
-    this.ctx.lineJoin = "round";
-    this.ctx.moveTo(segment[0][0], segment[0][1]);
-    for (let i = 1; i < segment.length; i++) {
-      this.ctx.lineTo(segment[i][0], segment[i][1]);
-    }
-    this.ctx.stroke();
-  }
-
   // Draws the drawing by looping through segments
-  #draw() {
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    for (const segment of this.drawing) {
-      this.#drawSegment(segment);
-    }
-
+  #draw(segment) {
+    // Draw each segment (array of points) of the drawing
+    draw(this.ctx, segment, this.color);
+    // Update decision boundary UI and classify new drawing
     this.triggerChartUpdate();
   }
 
@@ -86,7 +70,7 @@ class Pad {
         let lastSegment = this.drawing[this.drawing.length - 1];
         lastSegment.push(mouse);
 
-        this.#draw();
+        this.#draw(lastSegment);
       }
     };
     this.canvas.onmouseup = () => {
@@ -111,7 +95,12 @@ class Pad {
     this.undo.onclick = () => {
       if (this.drawing) {
         this.drawing.pop();
-        this.#draw();
+        // Clear all
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        // Draw each segment (array of points) of the drawing again
+        for (const segment of this.drawing) {
+          draw(this.ctx, segment, this.color);
+        }
       }
       this.triggerChartUpdate(); // Update chart on the smartPad page to reflect real time updates
     };

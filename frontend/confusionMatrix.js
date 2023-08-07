@@ -1,4 +1,4 @@
-class DecisionMatrix {
+class ConfusionMatrix {
   constructor(container, drawings) {
     this.drawings = drawings;
     this.matrix = [];

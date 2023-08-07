@@ -105,7 +105,7 @@ function testingShow() {
   smartPadPage.style.display = "block";
 
   // Show testing elements
-  decisionContainer.style.display = "block";
+  confusionContainer.style.display = "block";
   testingH1.style.display = "block";
   testingSubtitle.style.display = "block";
 
@@ -118,7 +118,7 @@ function testingHide() {
   smartPadPage.style.display = "none";
 
   // Hide testing elements
-  decisionContainer.style.display = "none";
+  confusionContainer.style.display = "none";
   testingH1.style.display = "none";
   testingSubtitle.style.display = "none";
 

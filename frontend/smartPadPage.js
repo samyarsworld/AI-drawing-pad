@@ -2,7 +2,7 @@
 const drawingsContainer = document.getElementById("drawingsContainer");
 const chartContainer = document.getElementById("chartContainer");
 const smartPadContainer = document.getElementById("smartPadContainer");
-const decisionContainer = document.getElementById("decisionContainer");
+const confusionContainer = document.getElementById("confusionContainer");
 
 // Destruct data from dataset, sorted testing set and sorted training set
 const { featureNames, drawingsMetaData, minMax } = dataset;
@@ -43,15 +43,19 @@ const smartPad = new Pad(smartPadContainer, (size = 400), drawingUpdate);
 // Update chart while sketching on the smartPad
 function drawingUpdate(drawing) {
   const activeFeatureFunctions = active.map((f) => f.function);
-  const featurePoint = activeFeatureFunctions.map((f) => f(drawing));
-  normalizedFeaturePoints([featurePoint], minMax);
+  const drawingFeatures = activeFeatureFunctions.map((f) => f(drawing));
+  normalizeFeatures(drawingFeatures, minMax);
+
   const { label, nearestDrawings } = classify(
     classifier,
     drawingsMetaData,
-    featurePoint
+    drawingFeatures
   );
+
   predictedLabelContainer.innerHTML = "Is it a " + label + " ?";
-  chart.showRealTimeDrawing(featurePoint, label, nearestDrawings);
+  return;
+
+  chart.showRealTimeDrawing(drawingFeatures, label, nearestDrawings);
 }
 
 // Testing page
@@ -59,8 +63,8 @@ function drawingUpdate(drawing) {
 const testingSub = document.getElementById("testing-subtitle");
 testingSub.innerHTML = `Accuracy rate is ${accuracy}%`;
 
-// Display decision matrix
-const decisionMatrix = new DecisionMatrix(
-  decisionContainer,
+// Display confusion matrix
+const confusionMatrix = new ConfusionMatrix(
+  confusionContainer,
   testingDrawingsMetaData
 );

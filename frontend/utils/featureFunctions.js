@@ -78,27 +78,23 @@ function getRoundness(drawing) {
 }
 
 // Normalize feature points
-function normalizedFeaturePoints(featurePoints, minMax) {
+function normalizeFeatures(features, minMax) {
   let min, max;
-  const dimensions = featurePoints[0].length;
+  const dimensions = features.length;
   if (minMax) {
     min = minMax.min;
     max = minMax.max;
   } else {
-    min = [...featurePoints[0]];
-    max = [...featurePoints[0]];
-    for (let i = 1; i < featurePoints.length; i++) {
-      for (let j = 0; j < dimensions; j++) {
-        min[j] = Math.min(min[j], featurePoints[i][j]);
-        max[j] = Math.max(max[j], featurePoints[i][j]);
-      }
+    min = [...features];
+    max = [...features];
+    for (let i = 0; i < dimensions; i++) {
+      min[i] = Math.min(min[i], features[i]);
+      max[i] = Math.max(max[i], features[i]);
     }
   }
-  for (let i = 0; i < featurePoints.length; i++) {
-    for (let j = 0; j < dimensions; j++) {
-      // Change the features by reference
-      featurePoints[i][j] = math.invLerp(min[j], max[j], featurePoints[i][j]);
-    }
+  for (let i = 0; i < dimensions; i++) {
+    // Change the features by reference
+    features[i] = math.invLerp(min[i], max[i], features[i]);
   }
   return { min, max };
 }
@@ -110,5 +106,5 @@ const active = [
   { featureName: "Drawing Height", function: getDrawingHeight },
   { featureName: "Elongation", function: getElongation },
   { featureName: "Roundness", function: getRoundness },
-  { featureName: "Complexity", function: getComplexity },
+  // { featureName: "Complexity", function: getComplexity },
 ];

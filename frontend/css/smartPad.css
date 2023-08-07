@@ -48,7 +48,7 @@
   margin-left: 0px;
 }
 
-#decisionContainer,
+#confusionContainer,
 #chartContainer {
   position: fixed;
   top: 55%;
@@ -85,7 +85,7 @@
   background-color: rgb(94, 180, 94);
 }
 
-/* Decision matrix chart */
+/* confusion matrix chart */
 table {
   border-collapse: collapse;
   text-align: center;
@@ -151,7 +151,7 @@ td {
   }
 
   #chartContainer,
-  #decisionContainer {
+  #confusionContainer {
     position: relative;
     right: 0;
     top: 0;
