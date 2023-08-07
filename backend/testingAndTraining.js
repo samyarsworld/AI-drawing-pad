@@ -8,7 +8,7 @@ const { groupBy } = require("./utils/common.js");
 const constants = require("./utils/constants");
 
 function test(drawingsMetaData, featureNames, classifier) {
-  const trainingAmount = Math.floor(drawingsMetaData.length / 2);
+  const trainingAmount = Math.floor(drawingsMetaData.length * 0.5);
   trainingData = [];
   testingData = [];
 

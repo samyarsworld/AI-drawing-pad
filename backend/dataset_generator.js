@@ -9,7 +9,7 @@ const { draw } = require("./utils/common.js");
 const canvas = createCanvas(constants.CANVAS_SIZE, constants.CANVAS_SIZE);
 const ctx = canvas.getContext("2d");
 
-const fileNames = fs.readdirSync(constants.RAW_DATA_DIR).slice(0, 200);
+const fileNames = fs.readdirSync(constants.RAW_DATA_DIR).slice(0, 300);
 const totalDrawings = fileNames.length * constants.NUM_OF_LABELS;
 const drawingsMetaData = [];
 const featureNames = ff.active.map((f) => f.featureName);
@@ -24,34 +24,36 @@ fileNames.forEach((fileName) => {
   );
   const { student: user, session: token, drawings: userDrawings } = data;
 
+  // Skip the flagged users
+  if (constants.flaggedUsers.includes(token)) {
+    id += 8;
+    return;
+  }
+
   for (let label in userDrawings) {
-    if (!constants.flaggedSamples.includes(id)) {
-      // Generate PNG image file for each drawing
-      imageGenerator(
-        constants.IMAGES_DIR + "/" + id + ".png",
-        userDrawings[label]
-      );
+    // Generate PNG image file for each drawing
+    imageGenerator(
+      constants.IMAGES_DIR + "/" + id + ".png",
+      userDrawings[label]
+    );
 
-      // Generate JSON files for each drawing
-      fs.writeFileSync(
-        constants.JSON_DIR + "/" + id + ".json",
-        JSON.stringify(userDrawings[label])
-      );
+    // Generate JSON files for each drawing
+    fs.writeFileSync(
+      constants.JSON_DIR + "/" + id + ".json",
+      JSON.stringify(userDrawings[label])
+    );
 
-      // Add the important features to the drawing meta data
-      const features = activeFeatureFunctions.map((f) =>
-        f(userDrawings[label])
-      );
-      drawingsMetaData.push({
-        id: id,
-        label: label,
-        predictedLabel: label,
-        correct: false,
-        user: user,
-        user_id: token,
-        features: features,
-      });
-    }
+    // Add the important features to the drawing meta data
+    const features = activeFeatureFunctions.map((f) => f(userDrawings[label]));
+    drawingsMetaData.push({
+      id: id,
+      label: label,
+      predictedLabel: label,
+      correct: false,
+      user: user,
+      user_id: token,
+      features: features,
+    });
 
     // Log the progress of generating images
     process.stdout.clearLine();
