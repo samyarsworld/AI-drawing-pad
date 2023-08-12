@@ -3,12 +3,12 @@ import express from "express";
 import cors from "cors";
 import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4";
-import { resolvers } from "./graphql/resolvers.js";
-import { typeDefs } from "./graphql/typeDefs.js";
-import databaseConnect from "./config/database.js";
+import { resolvers } from "./API/graphql/resolvers.js";
+import { typeDefs } from "./API/graphql/typeDefs.js";
+import databaseConnect from "./API/config/database.js";
 
 dotenv.config({
-  path: "config/config.env",
+  path: "API/config/config.env",
 });
 
 const PORT = process.env.port || 8000;
@@ -38,12 +38,7 @@ app.use(express.json({ limit: "10mb" }));
 
 // Route handler for the home page
 app.get("/", (req, res) => {
-  res.send("Welcome to my website!");
-});
-
-// Route handler for the about page
-app.get("/about", (req, res) => {
-  res.send("This is the about page.");
+  res.send("Welcome to SmartPad API!");
 });
 
 // Route for graphiql page
