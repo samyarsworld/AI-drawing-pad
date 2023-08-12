@@ -28,7 +28,7 @@ function createRow(container, userName, metaData) {
 
     // Update correct drawing background color
     if (correct) {
-      drawingContainer.style.backgroundColor = "lightgreen";
+      drawingContainer.classList.add("correct");
     }
 
     const drawingLabel = document.createElement("div");

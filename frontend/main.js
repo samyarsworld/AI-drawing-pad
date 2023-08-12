@@ -1,3 +1,6 @@
+// Access the root element to change the global CSS variables
+const root = document.documentElement;
+
 // Single page application page change
 const smartPadPage = document.getElementById("smartPad");
 const contributePage = document.getElementById("contribute");
@@ -83,6 +86,9 @@ function smartPadShow() {
 
   // Update navbar
   smartPadBtn.classList.add("active");
+
+  // Update drawing card background colors
+  root.style.setProperty("--card-correct-color", "white");
 }
 
 function smartPadHide() {
@@ -111,6 +117,9 @@ function testingShow() {
 
   // Update navbar
   testingBtn.classList.add("active");
+
+  // Update drawing card background colors
+  root.style.setProperty("--card-correct-color", "lightgreen");
 }
 
 function testingHide() {

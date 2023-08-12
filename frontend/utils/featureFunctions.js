@@ -56,8 +56,19 @@ function getPixels(drawing, size = 400, scale = true) {
     }
   }
 
-  const imgData = ctx.getImageData(0, 0, size, size);
-  return imgData.data.filter((val, index) => index % 4 == 3); // Returns 4th element which is alpha (visibility)
+  const imgData = ctx.getImageData(0, 0, size, size).data;
+  const pixels = new Array(size);
+  let i = 3;
+  let j = 0;
+  while (i < imgData.length) {
+    pixels[j] = imgData[i];
+    j += 1;
+    i += 4;
+  }
+
+  // return imgData.filter((val, index) => index % 4 == 3); // Built-in version of the above but slower
+
+  return pixels;
 }
 
 function getComplexity(drawing, size, scale) {
@@ -99,12 +110,16 @@ function normalizeFeatures(features, minMax) {
   return { min, max };
 }
 
-const active = [
-  //{featureName:"Segment Count",function:getDrawingSegmentCount},
-  //{featureName:"Point Count",function:getDrawingPointCount},
-  { featureName: "Drawing Width", function: getDrawingWidth },
-  { featureName: "Drawing Height", function: getDrawingHeight },
-  { featureName: "Elongation", function: getElongation },
-  { featureName: "Roundness", function: getRoundness },
-  // { featureName: "Complexity", function: getComplexity },
+const featureFunctions = [
+  { featureName: "Drawing Width", function: getDrawingWidth, active: true },
+  { featureName: "Drawing Height", function: getDrawingHeight, active: true },
+  { featureName: "Elongation", function: getElongation, active: true },
+  { featureName: "Roundness", function: getRoundness, active: true },
+  { featureName: "Complexity", function: getComplexity, active: true },
 ];
+
+function getActiveFeatureFunctions() {
+  return featureFunctions.filter((item) => item.active).map((f) => f.function);
+}
+
+let activeIndex = [0, 1, 2, 3, 4];

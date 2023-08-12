@@ -3,7 +3,7 @@ const { classify } = require("./utils/classifiers.js");
 const fs = require("fs");
 const { createCanvas } = require("canvas");
 
-const canvas = createCanvas(100, 100);
+const canvas = createCanvas(400, 400);
 const ctx = canvas.getContext("2d");
 
 const data = JSON.parse(

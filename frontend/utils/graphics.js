@@ -18,6 +18,16 @@ graphics.drawText = (
   ctx.fillText(text, ...loc);
 };
 
+graphics.colorHueMap = {
+  red: 0,
+  yellow: 60,
+  green: 120,
+  cyan: 180,
+  blue: 240,
+  magenta: 300,
+  orange: 30,
+};
+
 graphics.generateImages = (styles, size = 20) => {
   for (let label in styles) {
     const style = styles[label];
@@ -31,20 +41,12 @@ graphics.generateImages = (styles, size = 20) => {
     ctx.textBaseline = "middle";
     ctx.font = size + "px Courier";
 
-    const colorHueMap = {
-      red: 0,
-      yellow: 60,
-      green: 120,
-      cyan: 180,
-      blue: 240,
-      magenta: 300,
-    };
-    const hue = -45 + colorHueMap[style.color];
+    const hue = -45 + graphics.colorHueMap[style.color];
 
     if (!isNaN(hue)) {
       ctx.filter = `
             brightness(2)
-            contrast(0.3)
+            contrast(0.4)
             sepia(1)
             brightness(0.7)
             hue-rotate(${hue}deg)

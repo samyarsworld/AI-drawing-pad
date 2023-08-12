@@ -1,9 +1,31 @@
-// Page elements
+//// Page elements
 const drawingsContainer = document.getElementById("drawingsContainer");
 const chartContainer = document.getElementById("chartContainer");
 const smartPadContainer = document.getElementById("smartPadContainer");
 const confusionContainer = document.getElementById("confusionContainer");
+const changeFeatures = document.getElementById("change-features");
 
+//// UI elements
+let f2 = false;
+changeFeatures.onclick = () => {
+  changeFeatures.innerHTML = f2
+    ? "Switch to width and height (2D)"
+    : "Switch to all 5 features (5D)";
+  if (f2) {
+    featureFunctions[2].active = true;
+    featureFunctions[3].active = true;
+    featureFunctions[4].active = true;
+    activeIndex = [0, 1, 2, 3, 4];
+  } else {
+    featureFunctions[2].active = false;
+    featureFunctions[3].active = false;
+    featureFunctions[4].active = false;
+    activeIndex = [0, 1];
+  }
+  f2 = !f2;
+};
+
+//// Data and ML elements
 // Destruct data from dataset, sorted testing set and sorted training set
 const { featureNames, drawingsMetaData, minMax } = dataset;
 const { sortedTestingMetaData, testingDrawingsMetaData, accuracy } = testingSet;
@@ -42,20 +64,21 @@ const smartPad = new Pad(smartPadContainer, (size = 400), drawingUpdate);
 
 // Update chart while sketching on the smartPad
 function drawingUpdate(drawing) {
-  const activeFeatureFunctions = active.map((f) => f.function);
+  let activeFeatureFunctions = getActiveFeatureFunctions();
   const drawingFeatures = activeFeatureFunctions.map((f) => f(drawing));
   normalizeFeatures(drawingFeatures, minMax);
 
-  const { label, nearestDrawings } = classify(
+  const label = classify(
     classifier,
     drawingsMetaData,
-    drawingFeatures
+    drawingFeatures,
+    activeIndex
   );
 
   predictedLabelContainer.innerHTML = "Is it a " + label + " ?";
-  return;
 
-  chart.showRealTimeDrawing(drawingFeatures, label, nearestDrawings);
+  // Update real time drawing location on the distribution chart (meaningless on the 3D+ feature charts)
+  // chart.showRealTimeDrawing(drawingFeatures, label, nearestDrawings);
 }
 
 // Testing page

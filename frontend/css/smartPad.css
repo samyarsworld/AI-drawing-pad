@@ -22,7 +22,7 @@
 
 .drawing-container {
   flex: 1 1 0;
-  background-color: white;
+  background-color: var(--card-main-color);
   color: black;
   text-align: center;
   border-radius: 10%;
@@ -36,7 +36,7 @@
 }
 
 .highlight {
-  background-color: yellow;
+  background-color: var(--card-highlight-color) !important;
 }
 
 #drawingsContainer {
@@ -78,11 +78,11 @@
 }
 
 .flagged {
-  background-color: red !important;
+  background-color: var(--card-flagged-color) !important;
 }
 
 .correct {
-  background-color: rgb(94, 180, 94);
+  background-color: var(--card-correct-color);
 }
 
 /* confusion matrix chart */

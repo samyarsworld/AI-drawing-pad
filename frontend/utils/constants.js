@@ -1,13 +1,13 @@
 // Used to define drawing images on the chart
 const STYLES = {
   car: { color: "blue", text: "🚙" },
-  clock: { color: "red", text: "🕐" },
+  clock: { color: "lightgray", text: "🕐" },
   fish: { color: "cyan", text: "🐟" },
-  house: { color: "yellow", text: "🏠" },
+  house: { color: "orange", text: "🏠" },
   pencil: { color: "magenta", text: "✏" },
   tree: { color: "green", text: "🌴" },
-  bicycle: { color: "red", text: "🚴" },
-  guitar: { color: "lightgray", text: "🎸" },
+  bicycle: { color: "yellow", text: "🚴" },
+  guitar: { color: "red", text: "🎸" },
 };
 
 const LABELS = [

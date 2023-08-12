@@ -62,29 +62,13 @@ math.formatNumber = (n, dec = 0) => {
   return n.toFixed(dec);
 };
 
-math.getNearest = (loc, points, k) => {
+math.getNearest = (newPoint, points, k) => {
   const obj = points.map((val, ind) => {
     return { ind, val };
   });
   const sorted = obj.sort((a, b) => {
-    return math.distance(loc, a.val) - math.distance(loc, b.val);
+    return math.distance(newPoint, a.val) - math.distance(newPoint, b.val);
   });
   const indices = sorted.map((obj) => obj.ind);
   return indices.slice(0, k);
 };
-
-// math.getNearest = (loc, points) => {
-//   let minDist = Number.MAX_SAFE_INTEGER;
-//   let nearestIndex = 0;
-
-//   for (let i = 0; i < points.length; i++) {
-//     const point = points[i];
-//     const d = math.distance(loc, point);
-
-//     if (d < minDist) {
-//       minDist = d;
-//       nearestIndex = i;
-//     }
-//   }
-//   return nearestIndex;
-// };
