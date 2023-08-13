@@ -5,40 +5,34 @@ export const typeDefs = `#graphql
         predictedLabel: String!
         correct: Boolean!
         user: String!
-        user_id: ID!
+        user_id: String!
         features: [Int!]!
     }
 
     type Query {
         drawings: [Drawing]
-        drawing(id: ID, user_id: ID): String
+        drawing(id: ID, user_id: String): Drawing
     }
 
     type Mutation {
-        # addNewUserDrawings(newDrawings: newDrawingsInput!): String
-        addNewDrawings: String
+        addNewUserDrawings(newUserDrawings: newDrawingsInput!): String
     }
 
     input newDrawingsInput {
-        session: String!
-        student: String!
+        user_id: String!
+        user: String!
         newDrawings: newDrawingsType!
     }
 
     input newDrawingsType {
-        car: [[Point]]
-        clock: [[Point]]
-        fish: [[Point]]
-        house: [[Point]]
-        pencil: [[Point]]
-        tree: [[Point]]
-        bicycle: [[Point]]
-        guitar: [[Point]]
-    }
-
-    input Point {
-        x: Int!
-        y: Int!
+        car: [[[[Int!]]]]
+        clock: [[[[Int!]]]]
+        fish: [[[[Int!]]]]
+        house: [[[[Int!]]]]
+        pencil: [[[[Int!]]]]
+        tree: [[[[Int!]]]]
+        bicycle: [[[[Int!]]]]
+        guitar: [[[[Int!]]]]
     }
 
 `;

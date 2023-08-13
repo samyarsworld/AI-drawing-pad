@@ -62,7 +62,7 @@ math.formatNumber = (n, dec = 0) => {
   return n.toFixed(dec);
 };
 
-math.getNearest = (newPoint, points, k) => {
+math.getNearest = (newPoint, points, k = 1) => {
   const obj = points.map((val, ind) => {
     return { ind, val };
   });

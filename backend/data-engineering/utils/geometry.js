@@ -1,5 +1,5 @@
 // Idea from: https://gist.github.com/id-ilych/8630fb273e5c5a0b64ca1dc080d68b63
-const math = require("./math.js");
+import math from "./math.js";
 
 const geometry = {};
 
@@ -197,4 +197,4 @@ geometry.triangleArea = (a, b, c) => {
   return (p * (p - ab) * (p - bc) * (p - ca)) ** 0.5;
 };
 
-module.exports = geometry;
+export default geometry;

@@ -1,15 +1,15 @@
-const constants = require("./utils/constants.js");
-const fs = require("fs");
-const ff = require("./utils/featureFunctions");
-const { createCanvas } = require("canvas");
-const { test } = require("./testingAndTraining.js");
-const geometry = require("./utils/geometry.js");
-const { draw } = require("./utils/common.js");
+import constants from "./utils/constants.js";
+import fs from "fs";
+import ff from "./utils/featureFunctions.js";
+import { createCanvas } from "canvas";
+import test from "./testingAndTraining.js";
+import geometry from "./utils/geometry.js";
+import { draw } from "./utils/common.js";
 
 const canvas = createCanvas(constants.CANVAS_SIZE, constants.CANVAS_SIZE);
 const ctx = canvas.getContext("2d");
 
-const fileNames = fs.readdirSync(constants.RAW_DATA_DIR).slice(0, 300);
+const fileNames = fs.readdirSync(constants.RAW_DATA_DIR);
 const totalDrawings = fileNames.length * constants.NUM_OF_LABELS;
 const drawingsMetaData = [];
 const featureNames = ff.active.map((f) => f.featureName);
@@ -22,10 +22,10 @@ fileNames.forEach((fileName) => {
   const data = JSON.parse(
     fs.readFileSync(constants.RAW_DATA_DIR + "/" + fileName)
   );
-  const { student: user, session: token, drawings: userDrawings } = data;
+  const { user, user_id, userDrawings } = data;
 
   // Skip the flagged users
-  if (constants.flaggedUsers.includes(token)) {
+  if (constants.flaggedUsers.includes(user_id)) {
     id += 8;
     return;
   }
@@ -51,7 +51,7 @@ fileNames.forEach((fileName) => {
       predictedLabel: label,
       correct: false,
       user: user,
-      user_id: token,
+      user_id: user_id,
       features: features,
     });
 
@@ -75,6 +75,11 @@ fs.writeFileSync(
 fs.writeFileSync(
   constants.DATASET_DIR + "/dataset.json",
   JSON.stringify(drawingsMetaData)
+);
+
+fs.writeFileSync(
+  constants.DATASET_DIR + "/minmax.json",
+  JSON.stringify(minMax)
 );
 
 // Create testing and training files

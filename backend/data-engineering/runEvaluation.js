@@ -1,7 +1,7 @@
-const constants = require("./utils/constants.js");
-const { classify } = require("./utils/classifiers.js");
-const fs = require("fs");
-const { createCanvas } = require("canvas");
+import constants from "./utils/constants.js";
+import classify from "./utils/classifiers.js";
+import fs from "fs";
+import { createCanvas } from "canvas";
 
 const canvas = createCanvas(400, 400);
 const ctx = canvas.getContext("2d");

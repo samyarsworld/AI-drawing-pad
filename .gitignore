@@ -1,3 +1,5 @@
 node_modules
-data
+data-engineering/images
+data-engineering/raw
 config.env
+clean_up.py

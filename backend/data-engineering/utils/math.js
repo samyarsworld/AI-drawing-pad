@@ -88,4 +88,4 @@ math.getNearest = (loc, points, k = 1) => {
 //   return nearestIndex;
 // };
 
-module.exports = math;
+export default math;

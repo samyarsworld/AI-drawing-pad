@@ -1,4 +1,4 @@
-const math = require("./math.js");
+import math from "./math.js";
 
 function classify(classifier, data, point) {
   switch (classifier) {
@@ -11,7 +11,7 @@ function KNN(data, point) {
   // Get all the points on the chart
   const points = data.map((d) => d.features);
   // Get indices of the k nearest points on the chart to current point
-  const indices = math.getNearest(point, points, (k = 50));
+  const indices = math.getNearest(point, points, 50);
   const nearestDrawings = indices.map((ind) => data[ind]);
   const labels = nearestDrawings.map((d) => d.label);
   const counts = {};
@@ -23,4 +23,4 @@ function KNN(data, point) {
   return { label, nearestDrawings };
 }
 
-module.exports = { classify };
+export default classify;

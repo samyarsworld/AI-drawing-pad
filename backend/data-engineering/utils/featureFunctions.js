@@ -1,7 +1,7 @@
-const geometry = require("./geometry.js");
-const math = require("./math.js");
-
-const { draw } = require("./common.js");
+import geometry from "./geometry.js";
+import math from "./math.js";
+import { draw } from "./common.js";
+import { createCanvas } from "canvas";
 
 const ff = {};
 
@@ -31,7 +31,6 @@ ff.getDrawingHeight = (drawing) => {
 };
 
 ff.getPixels = (drawing, size = 400, scale = true) => {
-  const { createCanvas } = require("canvas");
   let canvas = createCanvas(size, size);
   const ctx = canvas.getContext("2d");
 
@@ -120,4 +119,4 @@ ff.normalizeFeatures = (features, minMax) => {
   return { min, max };
 };
 
-module.exports = ff;
+export default ff;

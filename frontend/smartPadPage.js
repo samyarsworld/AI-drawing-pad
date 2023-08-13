@@ -26,6 +26,7 @@ changeFeatures.onclick = () => {
 };
 
 //// Data and ML elements
+
 // Destruct data from dataset, sorted testing set and sorted training set
 const { featureNames, drawingsMetaData, minMax } = dataset;
 const { sortedTestingMetaData, testingDrawingsMetaData, accuracy } = testingSet;
@@ -41,7 +42,7 @@ const options = {
   icon: "image",
   bg: new Image(),
 };
-options.bg.src = "../data/dataset/decisionBoundary.png";
+options.bg.src = "./static/images/decisionBoundary.png";
 const chart = new Chart(
   chartContainer,
   drawingsMetaData,

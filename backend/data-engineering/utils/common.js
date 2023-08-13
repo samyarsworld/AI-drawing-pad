@@ -1,5 +1,5 @@
 // Used to group drawings by the user
-function groupBy(dataset, key) {
+export const groupBy = (dataset, key) => {
   const sortedDataset = new Map();
   dataset.forEach((data) => {
     const value = data[key];
@@ -9,9 +9,9 @@ function groupBy(dataset, key) {
     sortedDataset[value].push(data);
   });
   return sortedDataset;
-}
+};
 
-function draw(ctx, points, color = "black") {
+export const draw = (ctx, points, color = "black") => {
   ctx.strokeStyle = color;
   ctx.lineWidth = 3;
   ctx.beginPath();
@@ -22,6 +22,4 @@ function draw(ctx, points, color = "black") {
     ctx.lineTo(points[i][0], points[i][1]);
   }
   ctx.stroke();
-}
-
-module.exports = { groupBy, draw };
+};

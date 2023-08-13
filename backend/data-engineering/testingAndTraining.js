@@ -1,16 +1,16 @@
 /// For the purpose of training, half of the data will be used as known images and other
 /// half will be tested with respect to their actual labels using the first half of the data
-const fs = require("fs");
-const ff = require("./utils/featureFunctions");
-const { classify } = require("./utils/classifiers.js");
-const { groupBy } = require("./utils/common.js");
 
-const constants = require("./utils/constants");
+import fs from "fs";
+import ff from "./utils/featureFunctions.js";
+import classify from "./utils/classifiers.js";
+import { groupBy } from "./utils/common.js";
+import constants from "./utils/constants.js";
 
 function test(drawingsMetaData, featureNames, classifier) {
   const trainingAmount = Math.floor(drawingsMetaData.length * 0.5);
-  trainingData = [];
-  testingData = [];
+  const trainingData = [];
+  const testingData = [];
 
   for (let i = 0; i < trainingAmount; i++) {
     trainingData.push(drawingsMetaData[i]);
@@ -66,4 +66,4 @@ function test(drawingsMetaData, featureNames, classifier) {
   );
 }
 
-module.exports = { test };
+export default test;

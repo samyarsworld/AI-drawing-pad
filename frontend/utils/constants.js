@@ -21,6 +21,6 @@ const LABELS = [
   "guitar",
 ];
 
-const IMG_DIR = "../data/dataset/images/";
+const IMG_DIR = "./static/images/drawings/";
 
 const classifier = "KNN";
