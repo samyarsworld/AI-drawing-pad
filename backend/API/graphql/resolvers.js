@@ -31,15 +31,15 @@ export const resolvers = {
     },
   },
   Mutation: {
-    addNewUserDrawings: async (parent, args) => {
+    addUserDrawings: async (parent, args) => {
       const activeFeatureFunctions = ff.active.map((f) => f.function);
       const classifier = "KNN";
 
-      const { user_id, user, newDrawings } = args.newUserDrawings;
+      const { user_id, user, userDrawings } = args.userDrawings;
 
-      for (let label in newDrawings) {
+      for (let label in userDrawings) {
         const features = activeFeatureFunctions.map((f) =>
-          f(newDrawings[label])
+          f(userDrawings[label])
         );
 
         // Normalize features

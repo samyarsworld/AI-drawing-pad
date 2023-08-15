@@ -29,7 +29,7 @@ databaseConnect();
 // Apply CORS to all routes
 app.use(
   cors({
-    origin: ["http://localhost:8000"],
+    origin: ["http://127.0.0.1:5500", "https://smartpad.onrender.com/"],
   })
 );
 

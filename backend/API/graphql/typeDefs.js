@@ -6,7 +6,7 @@ export const typeDefs = `#graphql
         correct: Boolean!
         user: String!
         user_id: String!
-        features: [Int!]!
+        features: [Float!]!
     }
 
     type Query {
@@ -15,16 +15,16 @@ export const typeDefs = `#graphql
     }
 
     type Mutation {
-        addNewUserDrawings(newUserDrawings: newDrawingsInput!): String
+        addUserDrawings(userDrawings: DrawingsInput!): String
     }
 
-    input newDrawingsInput {
+    input DrawingsInput {
         user_id: String!
         user: String!
-        newDrawings: newDrawingsType!
+        userDrawings: DrawingsType!
     }
 
-    input newDrawingsType {
+    input DrawingsType {
         car: [[[[Int!]]]]
         clock: [[[[Int!]]]]
         fish: [[[[Int!]]]]

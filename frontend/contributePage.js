@@ -10,7 +10,7 @@ drawingPadContainer.style.visibility = "hidden";
 let index = 0;
 const data = {
   user: null,
-  token: new Date().getTime().toString(),
+  user_id: new Date().getTime().toString(),
   userDrawings: {},
 };
 
@@ -53,14 +53,19 @@ function next() {
 }
 
 // Send drawings through graphql to backend
-function save() {
-  // Implement sending graphql post data to backend and then mongodb
-  const meh = JSON.stringify(data);
+const save = async () => {
+  // Add user drawings data to server using graphql endpoint
+  // const ADD_DRAWINGS = gql`
+  //   mutation addDrawings($userDrawings: DrawingsInput!) {
+  //     addUserDrawings(userDrawings: $userDrawings)
+  //   }
+  // `;
 
+  // Update UI
   startBtn.style.display = "none";
   instructions.innerHTML =
     "Congrats! Your drawings have been saved to our database. Feel free to add more!";
-}
+};
 
 // Save the user drawings locally with proper encoding in JSON files
 // const element = document.createElement("a");
@@ -70,6 +75,6 @@ function save() {
 //       encodeURIComponent(JSON.stringify(data))
 //   );
 
-//   const fileName = data.token + ".json";
+//   const fileName = data.user_id + ".json";
 //   element.setAttribute("download", fileName);
 //   element.click();
