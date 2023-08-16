@@ -8,50 +8,21 @@ const changeFeatures = document.getElementById("change-features");
 //// UI elements
 let f2 = false;
 changeFeatures.onclick = () => {
-  const query = `
-    query {
-      drawings {
-        label
-        features
-      }
-    }
-  `;
-  const ADD_DRAWINGS = `
-    mutation {
-      addUserDrawings(user: "hello",
-      user_id: "3123123",
-      userDrawings: {"bicycle": [[[1,2]]], "car": [[[2,3]]], "clock":[[[3, 4]]], "fish":[[[5, 6]]], "guitar":[[[7, 8]]], "house":[[[1,2]]], "pencil":[[[3, 4]]], "tree":[[[5, 6]]]}
-      )
-    }
-  `;
-
-  fetch("http://localhost:8000/graphql/", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      query: ADD_DRAWINGS,
-    }),
-  })
-    .then((res) => res.json())
-    .then((data) => console.log(data.data))
-    .catch((error) => {
-      console.error("Fetch error:", error);
-    });
-  // changeFeatures.innerHTML = f2
-  //   ? "Switch to width and height (2D)"
-  //   : "Switch to all 5 features (5D)";
-  // if (f2) {
-  //   featureFunctions[2].active = true;
-  //   featureFunctions[3].active = true;
-  //   featureFunctions[4].active = true;
-  //   activeIndex = [0, 1, 2, 3, 4];
-  // } else {
-  //   featureFunctions[2].active = false;
-  //   featureFunctions[3].active = false;
-  //   featureFunctions[4].active = false;
-  //   activeIndex = [0, 1];
-  // }
-  // f2 = !f2;
+  changeFeatures.innerHTML = f2
+    ? "Switch to width and height (2D)"
+    : "Switch to all 5 features (5D)";
+  if (f2) {
+    featureFunctions[2].active = true;
+    featureFunctions[3].active = true;
+    featureFunctions[4].active = true;
+    activeIndex = [0, 1, 2, 3, 4];
+  } else {
+    featureFunctions[2].active = false;
+    featureFunctions[3].active = false;
+    featureFunctions[4].active = false;
+    activeIndex = [0, 1];
+  }
+  f2 = !f2;
 };
 
 //// Data and ML elements

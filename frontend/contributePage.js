@@ -46,7 +46,7 @@ function next() {
   } else {
     drawingPadContainer.style.visibility = "hidden";
     instructions.innerHTML =
-      "We are all done! Feel free to refresh and start over!";
+      "We are all done! Click save to upload your drawings to out database.";
     startBtn.innerHTML = "SAVE";
     startBtn.onclick = save;
   }
@@ -55,11 +55,24 @@ function next() {
 // Send drawings through graphql to backend
 const save = async () => {
   // Add user drawings data to server using graphql endpoint
-  // const ADD_DRAWINGS = gql`
-  //   mutation addDrawings($userDrawings: DrawingsInput!) {
-  //     addUserDrawings(userDrawings: $userDrawings)
-  //   }
-  // `;
+
+  const variables = {
+    input: data,
+  };
+
+  fetch(uri, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      query: ADD_DRAWINGS,
+      variables: variables,
+    }),
+  })
+    .then((res) => res.json())
+    .then((data) => console.log(data))
+    .catch((error) => {
+      console.error("Fetch error:", error);
+    });
 
   // Update UI
   startBtn.style.display = "none";

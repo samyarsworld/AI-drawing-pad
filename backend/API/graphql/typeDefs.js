@@ -15,7 +15,7 @@ export const typeDefs = `#graphql
     }
 
     type Mutation {
-        addUserDrawings(userDrawings: DrawingsInput!): String
+        addUserDrawings(input: DrawingsInput!): String
     }
 
     input DrawingsInput {

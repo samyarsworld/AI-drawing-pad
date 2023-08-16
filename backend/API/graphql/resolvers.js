@@ -35,7 +35,7 @@ export const resolvers = {
       const activeFeatureFunctions = ff.active.map((f) => f.function);
       const classifier = "KNN";
 
-      const { user_id, user, userDrawings } = args.userDrawings;
+      const { user_id, user, userDrawings } = args.input;
 
       for (let label in userDrawings) {
         const features = activeFeatureFunctions.map((f) =>
