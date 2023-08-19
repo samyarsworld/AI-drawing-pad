@@ -1,1 +1,1 @@
-const uri = "http://localhost:8000/graphql/";
+const uri = "http://localhost:3000/graphql/";

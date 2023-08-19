@@ -1,0 +1,15 @@
+version: "3"
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "3000:3000"
+    environment:
+      MONGODB_ATLAS_URL: "mongodb+srv://samyarfarjam7:14121822@smartpadcluster.ustip24.mongodb.net/SmartPad?retryWrites=true&w=majority"
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend

@@ -1,5 +1,6 @@
 node_modules
-data-engineering/images
-data-engineering/raw
+backend/data-engineering/images
+backend/data-engineering/raw
 config.env
 clean_up.py
+docker-compose
