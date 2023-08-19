@@ -29,7 +29,6 @@ fileNames.forEach((fileName) => {
     id += 8;
     return;
   }
-
   for (let label in userDrawings) {
     // Generate PNG image file for each drawing
     imageGenerator(

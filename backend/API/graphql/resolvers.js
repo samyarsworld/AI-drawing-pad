@@ -1,5 +1,6 @@
 import Drawing from "../models/drawingsModel.js";
 import RawDrawing from "../models/rawDrawingsModel.js";
+import constants from "../../models/data-engineering/utils/constants.js";
 
 import ff from "../../data-engineering/utils/featureFunctions.js";
 import classify from "../../data-engineering/utils/classifiers.js";
@@ -43,7 +44,6 @@ export const resolvers = {
   Mutation: {
     addUserDrawings: async (parent, args) => {
       const activeFeatureFunctions = ff.active.map((f) => f.function);
-      const classifier = "KNN";
 
       const { user_id, user, userDrawings } = args.input;
 
@@ -64,7 +64,11 @@ export const resolvers = {
             (features[i] - minmax.min[i]) / (minmax.max[i] - minmax.min[i]);
         }
 
-        const { label: predictedLabel } = classify(classifier, data, features);
+        const { label: predictedLabel } = classify(
+          constants.classifier,
+          data,
+          features
+        );
 
         const drawing = new Drawing({
           label: label,

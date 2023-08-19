@@ -1,7 +1,7 @@
 const constants = {};
 constants.RAW_DATA_DIR = "./data/raw";
 constants.DATASET_DIR = "./data/dataset";
-constants.IMAGES_DIR = "./data/images";
+constants.IMAGES_DIR = "../../frontend/static/images/drawings";
 constants.NUM_OF_LABELS = 8;
 constants.CANVAS_SIZE = 400;
 constants.classifier = "KNN";
