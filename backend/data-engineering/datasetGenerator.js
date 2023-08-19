@@ -37,12 +37,6 @@ fileNames.forEach((fileName) => {
       userDrawings[label]
     );
 
-    // Generate JSON files for each drawing
-    fs.writeFileSync(
-      constants.JSON_DIR + "/" + id + ".json",
-      JSON.stringify(userDrawings[label])
-    );
-
     // Add the important features to the drawing meta data
     const features = activeFeatureFunctions.map((f) => f(userDrawings[label]));
     drawingsMetaData.push({

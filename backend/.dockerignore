@@ -1,0 +1,6 @@
+/node_modules
+/build
+/data-engineering/images
+/data-engineering/raw
+config.env
+clean_up.py

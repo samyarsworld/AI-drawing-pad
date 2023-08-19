@@ -1,4 +1,6 @@
 import Drawing from "../models/drawingsModel.js";
+import RawDrawing from "../models/rawDrawingsModel.js";
+
 import ff from "../../data-engineering/utils/featureFunctions.js";
 import classify from "../../data-engineering/utils/classifiers.js";
 
@@ -21,6 +23,14 @@ export const resolvers = {
         throw new Error(`Error fetching drawing: ${error.message}`);
       }
     },
+    rawDrawings: async () => {
+      try {
+        const allRawDrawings = await RawDrawing.find({});
+        return allRawDrawings;
+      } catch (error) {
+        throw new Error(`Error fetching drawing: ${error.message}`);
+      }
+    },
     drawing: async (parent, args) => {
       try {
         const drawing = await Drawing.findById(args.id);
@@ -36,6 +46,12 @@ export const resolvers = {
       const classifier = "KNN";
 
       const { user_id, user, userDrawings } = args.input;
+
+      const rawDrawing = new RawDrawing({ user_id, user, userDrawings });
+      const res = await rawDrawing.save();
+      if (!res) {
+        return "Something went wrong!";
+      }
 
       for (let label in userDrawings) {
         const features = activeFeatureFunctions.map((f) =>
@@ -60,17 +76,8 @@ export const resolvers = {
         });
 
         const savedDrawing = await drawing.save();
-        if (savedDrawing) {
-          drawing.id = savedDrawing._id;
-          fs.writeFileSync(
-            "./data-engineering/data/dataset/json/" +
-              savedDrawing._id +
-              ".json",
-            JSON.stringify(drawing)
-          );
-        } else {
-          console.log("Something went wrong when saving the object on Mongo");
-          break;
+        if (!savedDrawing) {
+          return "Something went wrong!";
         }
       }
 
