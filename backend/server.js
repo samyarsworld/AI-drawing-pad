@@ -41,7 +41,7 @@ app.get("/", (req, res) => {
   res.send("Welcome to SmartPad API!");
 });
 
-// Route for graphiql page
+// Route for Graphiql page
 app.use("/graphql", expressMiddleware(server));
 console.log(`🚀  Graphql running at: http://localhost:${PORT}/graphql`);
 

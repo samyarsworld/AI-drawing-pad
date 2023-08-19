@@ -1,6 +1,6 @@
 import Drawing from "../models/drawingsModel.js";
 import RawDrawing from "../models/rawDrawingsModel.js";
-import constants from "../../models/data-engineering/utils/constants.js";
+import constants from "../../data-engineering/utils/constants.js";
 
 import ff from "../../data-engineering/utils/featureFunctions.js";
 import classify from "../../data-engineering/utils/classifiers.js";
