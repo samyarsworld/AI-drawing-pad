@@ -66,6 +66,13 @@ fs.writeFileSync(
 );
 
 fs.writeFileSync(
+  constants.FRONTEND_DATASET_DIR + "/dataset.js",
+  "const dataset = " +
+    JSON.stringify({ featureNames, drawingsMetaData, minMax }) +
+    ";"
+);
+
+fs.writeFileSync(
   constants.DATASET_DIR + "/dataset.json",
   JSON.stringify(drawingsMetaData)
 );

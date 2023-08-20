@@ -54,8 +54,28 @@ function test(drawingsMetaData, featureNames, classifier) {
         sortedTrainingMetaData,
       })
   );
+
+  fs.writeFileSync(
+    constants.FRONTEND_DATASET_DIR + "/trainingSet.js",
+    "const trainingSet = " +
+      JSON.stringify({
+        sortedTrainingMetaData,
+      })
+  );
+
   fs.writeFileSync(
     constants.DATASET_DIR + "/testingSet.js",
+    "const testingSet = " +
+      JSON.stringify({
+        featureNames,
+        sortedTestingMetaData,
+        testingDrawingsMetaData: testingData,
+        accuracy: (correctCount / totalCount) * 100,
+      })
+  );
+
+  fs.writeFileSync(
+    constants.FRONTEND_DATASET_DIR + "/testingSet.js",
     "const testingSet = " +
       JSON.stringify({
         featureNames,
