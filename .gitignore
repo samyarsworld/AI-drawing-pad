@@ -3,4 +3,4 @@ backend/data-engineering/images
 backend/data-engineering/raw
 config.env
 clean_up.py
-docker-compose.yml
+backend/Dockerfile
