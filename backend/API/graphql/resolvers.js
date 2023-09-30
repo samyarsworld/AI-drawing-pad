@@ -3,7 +3,7 @@ import RawDrawing from "../models/rawDrawingsModel.js";
 import constants from "../../data-engineering/utils/constants.js";
 
 import ff from "../../data-engineering/utils/featureFunctions.js";
-import classify from "../../data-engineering/utils/classifiers.js";
+import { KNN } from "../../data-engineering/utils/classifiers.js";
 
 import fs from "fs";
 
@@ -13,6 +13,8 @@ const data = JSON.parse(
 const minmax = JSON.parse(
   fs.readFileSync("./data-engineering/data/dataset/minmax.json")
 );
+
+const kNN = new KNN(data);
 
 export const resolvers = {
   Query: {
@@ -64,11 +66,7 @@ export const resolvers = {
             (features[i] - minmax.min[i]) / (minmax.max[i] - minmax.min[i]);
         }
 
-        const { label: predictedLabel } = classify(
-          constants.classifier,
-          data,
-          features
-        );
+        const { label: predictedLabel } = kNN.predict(features);
 
         const drawing = new Drawing({
           label: label,

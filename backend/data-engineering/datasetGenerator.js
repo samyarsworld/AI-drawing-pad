@@ -9,7 +9,7 @@ import { draw } from "./utils/common.js";
 const canvas = createCanvas(constants.CANVAS_SIZE, constants.CANVAS_SIZE);
 const ctx = canvas.getContext("2d");
 
-const fileNames = fs.readdirSync(constants.RAW_DATA_DIR);
+const fileNames = fs.readdirSync(constants.RAW_DATA_DIR).slice(0, 40);
 const totalDrawings = fileNames.length * constants.NUM_OF_LABELS;
 const drawingsMetaData = [];
 const featureNames = ff.active.map((f) => f.featureName);

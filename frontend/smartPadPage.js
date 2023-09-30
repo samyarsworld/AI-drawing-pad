@@ -63,18 +63,26 @@ for (const user_id in sortedTrainingMetaData) {
 // Create the SmartPad
 const smartPad = new Pad(smartPadContainer, (size = 400), drawingUpdate);
 
+// Create the classification model
+const kNN = new KNN(drawingsMetaData);
+
+const mLP = new MLP([]);
+mLP.load(model);
+
 // Update chart while sketching on the smartPad
 function drawingUpdate(drawing) {
   let activeFeatureFunctions = getActiveFeatureFunctions();
   const drawingFeatures = activeFeatureFunctions.map((f) => f(drawing));
   normalizeFeatures(drawingFeatures, minMax);
 
-  const label = classify(
-    classifier,
-    drawingsMetaData,
-    drawingFeatures,
-    activeIndex
-  );
+  const label = kNN.predict(drawingFeatures, activeIndex);
+
+  // const label = classify(
+  //   classifier,
+  //   drawingsMetaData,
+  //   drawingFeatures,
+  //   activeIndex
+  // );
 
   predictedLabelContainer.innerHTML = "Is it a " + label + " ?";
 
