@@ -72,8 +72,8 @@ class MLP {
     const output = NeuralNetwork.feedForward(point, this.network);
     const max = Math.max(...output);
     const index = output.indexOf(max);
-    const label = constants.LABELS[index];
-    return { label };
+    const label = LABELS[index];
+    return label;
   }
 
   fit(data, tries = 1000) {

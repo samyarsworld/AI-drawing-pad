@@ -75,7 +75,8 @@ function drawingUpdate(drawing) {
   const drawingFeatures = activeFeatureFunctions.map((f) => f(drawing));
   normalizeFeatures(drawingFeatures, minMax);
 
-  const label = kNN.predict(drawingFeatures, activeIndex);
+  // const label = kNN.predict(drawingFeatures, activeIndex);
+  const label = mLP.predict(drawingFeatures);
 
   // const label = classify(
   //   classifier,
