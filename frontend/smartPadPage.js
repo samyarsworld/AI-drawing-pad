@@ -4,6 +4,7 @@ const chartContainer = document.getElementById("chartContainer");
 const smartPadContainer = document.getElementById("smartPadContainer");
 const confusionContainer = document.getElementById("confusionContainer");
 const changeFeatures = document.getElementById("change-features");
+const networkCanvas = document.getElementById("networkCanvas");
 
 //// UI elements
 let f2 = false;
@@ -28,9 +29,9 @@ changeFeatures.onclick = () => {
 //// Data and ML elements
 
 // Destruct data from dataset, sorted testing set and sorted training set
-const { featureNames, drawingsMetaData, minMax } = dataset;
-const { sortedTestingMetaData, testingDrawingsMetaData, accuracy } = testingSet;
-const { sortedTrainingMetaData } = trainingSet;
+const { featureNames, drawingSamples, minMax } = dataset;
+const { sortedTestingSamples, testingSamples, accuracy } = testingSet;
+const { sortedTrainingSamples } = trainingSet;
 
 // Create chart
 graphics.generateImages(STYLES);
@@ -45,29 +46,37 @@ const options = {
 options.bg.src = "./static/images/decisionBoundary.png";
 const chart = new Chart(
   chartContainer,
-  drawingsMetaData,
+  drawingSamples,
   options,
   handleDrawingClick
 );
 
 // Create rows of drawings of each user
-for (const user_id in sortedTestingMetaData) {
-  const user = sortedTestingMetaData[user_id][0].user;
-  createRow(drawingsContainer, user, sortedTestingMetaData[user_id]);
+for (const user_id in sortedTestingSamples) {
+  const user = sortedTestingSamples[user_id][0].user;
+  createRow(drawingsContainer, user, sortedTestingSamples[user_id]);
 }
-for (const user_id in sortedTrainingMetaData) {
-  const user = sortedTrainingMetaData[user_id][0].user;
-  createRow(drawingsContainer, user, sortedTrainingMetaData[user_id]);
+for (const user_id in sortedTrainingSamples) {
+  const user = sortedTrainingSamples[user_id][0].user;
+  createRow(drawingsContainer, user, sortedTrainingSamples[user_id]);
 }
 
 // Create the SmartPad
 const smartPad = new Pad(smartPadContainer, (size = 400), drawingUpdate);
 
 // Create the classification model
-const kNN = new KNN(drawingsMetaData);
+// const kNN = new KNN(drawingSamples);
 
 const mLP = new MLP([]);
 mLP.load(model);
+
+networkCanvas.width = 500;
+networkCanvas.height = 500;
+const networkCtx = networkCanvas.getContext("2d");
+
+// Display neural network
+const outputLabels = Object.values(STYLES).map((s) => s.image);
+Visualizer.drawNetwork(networkCtx, mLP.network, outputLabels);
 
 // Update chart while sketching on the smartPad
 function drawingUpdate(drawing) {
@@ -78,13 +87,7 @@ function drawingUpdate(drawing) {
   // const label = kNN.predict(drawingFeatures, activeIndex);
   const label = mLP.predict(drawingFeatures);
 
-  // const label = classify(
-  //   classifier,
-  //   drawingsMetaData,
-  //   drawingFeatures,
-  //   activeIndex
-  // );
-
+  Visualizer.drawNetwork(networkCtx, mLP.network, outputLabels);
   predictedLabelContainer.innerHTML = "Is it a " + label + " ?";
 
   // Update real time drawing location on the distribution chart (meaningless on the 3D+ feature charts)
@@ -97,7 +100,4 @@ const testingSub = document.getElementById("testing-subtitle");
 testingSub.innerHTML = `Accuracy rate is ${accuracy}%`;
 
 // Display confusion matrix
-const confusionMatrix = new ConfusionMatrix(
-  confusionContainer,
-  testingDrawingsMetaData
-);
+const confusionMatrix = new ConfusionMatrix(confusionContainer, testingSamples);

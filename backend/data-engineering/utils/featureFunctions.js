@@ -15,16 +15,22 @@ ff.getDrawingPointCount = (drawing) => {
 };
 
 ff.getDrawingWidth = (drawing) => {
-  const allPoints = drawing.flat();
-  const allX = allPoints.map((p) => p[0]);
+  const points = drawing.flat();
+  if (points.length == 0) {
+    return 0;
+  }
+  const allX = points.map((p) => p[0]);
   const minX = Math.min(...allX);
   const maxX = Math.max(...allX);
   return maxX - minX;
 };
 
 ff.getDrawingHeight = (drawing) => {
-  const allPoints = drawing.flat();
-  const allY = allPoints.map((p) => p[1]);
+  const points = drawing.flat();
+  if (points.length == 0) {
+    return 0;
+  }
+  const allY = points.map((p) => p[1]);
   const minY = Math.min(...allY);
   const maxY = Math.max(...allY);
   return maxY - minY;
@@ -93,27 +99,31 @@ ff.active = [
 ];
 
 // Normalize feature points
-ff.normalizeFeatures = (features, minMax) => {
+ff.normalizeFeatures = (drawingsFeatures, minMax) => {
   let min, max;
-  const dimensions = features[0].length;
+  const featureCount = drawingsFeatures[0].length;
+
+  // Find min and max of each feature
   if (minMax) {
     min = minMax.min;
     max = minMax.max;
   } else {
-    min = [...features[0]];
-    max = [...features[0]];
-    for (let i = 1; i < features.length; i++) {
-      for (let j = 0; j < dimensions; j++) {
-        min[j] = Math.min(min[j], features[i][j]);
-        max[j] = Math.max(max[j], features[i][j]);
+    min = [...drawingsFeatures[0]];
+    max = [...drawingsFeatures[0]];
+    for (let i = 1; i < drawingsFeatures.length; i++) {
+      for (let j = 0; j < featureCount; j++) {
+        min[j] = Math.min(min[j], drawingsFeatures[i][j]);
+        max[j] = Math.max(max[j], drawingsFeatures[i][j]);
       }
     }
   }
-  for (let i = 0; i < features.length; i++) {
-    for (let j = 0; j < dimensions; j++) {
-      // Change the features by reference
+
+  // Normalize the features
+  for (let i = 0; i < drawingsFeatures.length; i++) {
+    for (let j = 0; j < featureCount; j++) {
       // Simple normalization technique is used (Z-score normalization could be used later to see if it improves the results)
-      features[i][j] = (features[i][j] - min[j]) / (max[j] - min[j]);
+      drawingsFeatures[i][j] =
+        (drawingsFeatures[i][j] - min[j]) / (max[j] - min[j]);
     }
   }
   return { min, max };

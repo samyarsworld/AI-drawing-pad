@@ -23,3 +23,11 @@ export const draw = (ctx, points, color = "black") => {
   }
   ctx.stroke();
 };
+
+export const toCSV = (headers, samples) => {
+  let str = headers.join(",") + "\n";
+  for (const sample of samples) {
+    str += sample.join(",") + "\n";
+  }
+  return str;
+};

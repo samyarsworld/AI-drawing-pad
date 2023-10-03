@@ -8,16 +8,22 @@ function getDrawingPointCount(drawing) {
 }
 
 function getDrawingWidth(drawing) {
-  const allPoints = drawing.flat();
-  const allX = allPoints.map((p) => p[0]);
+  const points = drawing.flat();
+  if (points.length == 0) {
+    return 0;
+  }
+  const allX = points.map((p) => p[0]);
   const minX = Math.min(...allX);
   const maxX = Math.max(...allX);
   return maxX - minX;
 }
 
 function getDrawingHeight(drawing) {
-  const allPoints = drawing.flat();
-  const allY = allPoints.map((p) => p[1]);
+  const points = drawing.flat();
+  if (points.length == 0) {
+    return 0;
+  }
+  const allY = points.map((p) => p[1]);
   const minY = Math.min(...allY);
   const maxY = Math.max(...allY);
   return maxY - minY;

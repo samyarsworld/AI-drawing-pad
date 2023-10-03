@@ -81,6 +81,8 @@ function smartPadShow() {
 
   // Show SmartPad elements
   chartContainer.style.display = "block";
+  networkCanvas.style.display = "block";
+
   smartPadH1.style.display = "block";
   smartPadSubtitle.style.display = "block";
 
@@ -98,6 +100,7 @@ function smartPadHide() {
 
   // Hide SmartPad elements
   chartContainer.style.display = "none";
+  networkCanvas.style.display = "none";
   smartPadH1.style.display = "none";
   smartPadSubtitle.style.display = "none";
   smartPadContainer.style.display = "none";

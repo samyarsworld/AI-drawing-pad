@@ -4,52 +4,58 @@
 import fs from "fs";
 import ff from "./utils/featureFunctions.js";
 import { KNN, MLP } from "./utils/classifiers.js";
-import { groupBy } from "./utils/common.js";
+import { groupBy, toCSV } from "./utils/common.js";
 import constants from "./utils/constants.js";
 
-function test(drawingsMetaData, featureNames, classifier) {
-  const trainingAmount = Math.floor(drawingsMetaData.length * 0.5);
-  const trainingData = [];
-  const testingData = [];
+function test(drawingSamples, featureNames) {
+  const trainingSamplesCount = Math.floor(drawingSamples.length * 0.5);
+  const trainingSamples = [];
+  const testingSamples = [];
 
-  for (let i = 0; i < trainingAmount; i++) {
-    trainingData.push(drawingsMetaData[i]);
+  for (let i = 0; i < trainingSamplesCount; i++) {
+    trainingSamples.push(drawingSamples[i]);
   }
 
-  for (let i = trainingAmount; i < drawingsMetaData.length; i++) {
-    testingData.push(drawingsMetaData[i]);
+  for (let i = trainingSamplesCount; i < drawingSamples.length; i++) {
+    testingSamples.push(drawingSamples[i]);
   }
 
-  // Calculate minMax
+  // Calculate minMax and normalize the training set
   const minMaxTraining = ff.normalizeFeatures(
-    trainingData.map((d) => d.features)
+    trainingSamples.map((d) => d.features)
   );
 
   // Normalize the testing data
   ff.normalizeFeatures(
-    testingData.map((d) => d.features),
+    testingSamples.map((d) => d.features),
     minMaxTraining
   );
 
-  const kNN = new KNN(trainingData);
+  // Create the classification model
+  // K-nearest neighbor model
+  const kNN = new KNN(trainingSamples);
+
+  // Deep learning model
   const mLP = new MLP([
-    trainingData[0].features.length,
+    trainingSamples[0].features.length,
+    12,
     constants.CLASSES.length,
   ]);
 
+  // Use existing model
   if (fs.existsSync(constants.MODEL)) {
     mLP.load(JSON.parse(fs.readFileSync(constants.MODEL)));
   }
 
-  mLP.fit(trainingData, 1000);
+  mLP.fit(trainingSamples, 5000);
 
   fs.writeFileSync(constants.MODEL, JSON.stringify(mLP));
   fs.writeFileSync(constants.MODEL_JS, `const model = ${JSON.stringify(mLP)}`);
 
   // Classify each testing image
   let correctCount = 0;
-  let totalCount = testingData.length;
-  for (let drawing of testingData) {
+  let totalCount = testingSamples.length;
+  for (let drawing of testingSamples) {
     // const { label } = kNN.predict(drawing.features);
     const { label } = mLP.predict(drawing.features);
 
@@ -63,15 +69,16 @@ function test(drawingsMetaData, featureNames, classifier) {
   // Print accuracy
   console.log("\n", (correctCount / totalCount) * 100);
 
-  // Group drawings meta data using user_id
-  const sortedTrainingMetaData = groupBy(trainingData, "user_id");
-  const sortedTestingMetaData = groupBy(testingData, "user_id");
+  // Group drawings sets using user_id
+  const sortedTrainingSamples = groupBy(trainingSamples, "user_id");
+  const sortedTestingSamples = groupBy(testingSamples, "user_id");
 
   fs.writeFileSync(
     constants.DATASET_DIR + "/trainingSet.js",
     "const trainingSet = " +
       JSON.stringify({
-        sortedTrainingMetaData,
+        trainingSamples,
+        sortedTrainingSamples,
       })
   );
 
@@ -79,7 +86,8 @@ function test(drawingsMetaData, featureNames, classifier) {
     constants.FRONTEND_DATASET_DIR + "/trainingSet.js",
     "const trainingSet = " +
       JSON.stringify({
-        sortedTrainingMetaData,
+        trainingSamples,
+        sortedTrainingSamples,
       })
   );
 
@@ -88,10 +96,19 @@ function test(drawingsMetaData, featureNames, classifier) {
     "const testingSet = " +
       JSON.stringify({
         featureNames,
-        sortedTestingMetaData,
-        testingDrawingsMetaData: testingData,
+        sortedTestingSamples,
+        testingSamples,
         accuracy: (correctCount / totalCount) * 100,
       })
+  );
+
+  fs.writeFileSync(
+    constants.DATASET_DIR + "/testingSet.json",
+    JSON.stringify({ testingSamples })
+  );
+  fs.writeFileSync(
+    constants.DATASET_DIR + "/trainingSet.json",
+    JSON.stringify({ trainingSamples })
   );
 
   fs.writeFileSync(
@@ -99,11 +116,29 @@ function test(drawingsMetaData, featureNames, classifier) {
     "const testingSet = " +
       JSON.stringify({
         featureNames,
-        sortedTestingMetaData,
-        testingDrawingsMetaData: testingData,
+        sortedTestingSamples,
+        testingSamples,
         accuracy: (correctCount / totalCount) * 100,
       })
   );
+
+  // CSV form
+  fs.writeFileSync(
+    constants.TRAINING_CSV,
+    toCSV(
+      [...featureNames, "Label"],
+      trainingSamples.map((d) => [...d.features, d.label])
+    )
+  );
+  fs.writeFileSync(
+    constants.TESTING_CSV,
+    toCSV(
+      [...featureNames, "Label"],
+      testingSamples.map((d) => [...d.features, d.label])
+    )
+  );
+
+  return minMaxTraining;
 }
 
 export default test;

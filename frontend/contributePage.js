@@ -25,7 +25,7 @@ function start() {
   startBtn.innerHTML = "NEXT";
 
   data.user = user.value; // Add user's name to user
-  const label = LABELS[index]; // Going through each label (object for drawing)
+  const label = CLASSES[index]; // Going through each label (object for drawing)
   instructions.innerHTML = "Please draw a " + label;
   startBtn.onclick = next;
 }
@@ -35,13 +35,13 @@ function next() {
     alert("Please make a drawing.");
     return;
   }
-  const label = LABELS[index];
+  const label = CLASSES[index];
   data.userDrawings[label] = drawingPad.drawing;
   drawingPad.clear.click(); // Clear drawingPad for the next prompt
 
-  index++; // Next label from LABELS (from constants.js)
-  if (index < LABELS.length) {
-    const nextLabel = LABELS[index];
+  index++; // Next label from CLASSES (from constants.js)
+  if (index < CLASSES.length) {
+    const nextLabel = CLASSES[index];
     instructions.innerHTML = "Please draw a " + nextLabel;
   } else {
     drawingPadContainer.style.visibility = "hidden";

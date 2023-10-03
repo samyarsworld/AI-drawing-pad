@@ -9,30 +9,30 @@ class ConfusionMatrix {
   }
 
   #constructMatrix() {
-    for (let i = 0; i < LABELS.length + 1; i++) {
+    for (let i = 0; i < CLASSES.length + 1; i++) {
       const row = [];
-      for (let j = 0; j < LABELS.length + 1; j++) {
+      for (let j = 0; j < CLASSES.length + 1; j++) {
         row.push(0);
       }
       this.matrix.push(row);
     }
 
     for (let drawing of this.drawings) {
-      const indTrue = LABELS.indexOf(drawing.label) + 1;
-      const indRes = LABELS.indexOf(drawing.predictedLabel) + 1;
+      const indTrue = CLASSES.indexOf(drawing.label) + 1;
+      const indRes = CLASSES.indexOf(drawing.predictedLabel) + 1;
       this.matrix[indTrue][indRes] += 1;
     }
 
     // Totals
-    for (let i = 1; i < LABELS.length + 1; i++) {
-      for (let j = 1; j < LABELS.length + 1; j++) {
+    for (let i = 1; i < CLASSES.length + 1; i++) {
+      for (let j = 1; j < CLASSES.length + 1; j++) {
         this.matrix[0][j] += this.matrix[i][j];
         this.matrix[i][0] += this.matrix[i][j];
       }
     }
 
     // Relative differences
-    for (let i = 1; i < LABELS.length + 1; i++) {
+    for (let i = 1; i < CLASSES.length + 1; i++) {
       this.matrix[0][i] -= this.matrix[i][0];
       if (this.matrix[0][i] > 0) {
         this.matrix[0][i] = "+" + this.matrix[0][i];
@@ -62,16 +62,16 @@ class ConfusionMatrix {
     const min = Math.min(...values);
     const max = Math.max(...values);
 
-    for (let i = 0; i < LABELS.length + 1; i++) {
+    for (let i = 0; i < CLASSES.length + 1; i++) {
       const row = document.createElement("tr");
       table.appendChild(row);
-      for (let j = 0; j < LABELS.length + 1; j++) {
+      for (let j = 0; j < CLASSES.length + 1; j++) {
         const cell = document.createElement("td");
         cell.innerText = this.matrix[i][j];
 
         if (i == 0 && j > 0) {
           cell.style.backgroundImage =
-            "url(" + STYLES[LABELS[j - 1]].image.src + ")";
+            "url(" + STYLES[CLASSES[j - 1]].image.src + ")";
           cell.style.backgroundRepeat = "no-repeat";
           cell.style.backgroundPosition = "50% 20%";
           cell.style.verticalAlign = "bottom";
@@ -84,7 +84,7 @@ class ConfusionMatrix {
 
         if (j == 0 && i > 0) {
           cell.style.backgroundImage =
-            "url(" + STYLES[LABELS[i - 1]].image.src + ")";
+            "url(" + STYLES[CLASSES[i - 1]].image.src + ")";
           cell.style.backgroundRepeat = "no-repeat";
           cell.style.backgroundPosition = "50% 20%";
           cell.style.verticalAlign = "bottom";

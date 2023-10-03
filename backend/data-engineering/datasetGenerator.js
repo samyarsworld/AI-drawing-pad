@@ -6,46 +6,43 @@ import test from "./testingAndTraining.js";
 import geometry from "./utils/geometry.js";
 import { draw } from "./utils/common.js";
 
+// Create drawings canvas
 const canvas = createCanvas(constants.CANVAS_SIZE, constants.CANVAS_SIZE);
 const ctx = canvas.getContext("2d");
 
 const fileNames = fs.readdirSync(constants.RAW_DATA_DIR);
-const totalDrawings = fileNames.length * constants.NUM_OF_LABELS;
-const drawingsMetaData = [];
+const totalDrawings = fileNames.length * constants.NUM_OF_CLASSES;
+const drawingSamples = [];
 const featureNames = ff.active.map((f) => f.featureName);
 const activeFeatureFunctions = ff.active.map((f) => f.function);
 
 let id = 1; // Image ID to be saved on the cloud
 
-// Generate images using received JSON drawings
+console.log("Creating the images...\n");
+// Generate images using received JSON raw drawings
 fileNames.forEach((fileName) => {
   const data = JSON.parse(
     fs.readFileSync(constants.RAW_DATA_DIR + "/" + fileName)
   );
   const { user, user_id, userDrawings } = data;
 
-  // Skip the flagged users
-  if (constants.flaggedUsers.includes(user_id)) {
-    id += 8;
-    return;
-  }
   for (let label in userDrawings) {
     // Generate PNG image file for each drawing
-    imageGenerator(
-      constants.IMAGES_DIR + "/" + id + ".png",
-      userDrawings[label]
-    );
+    // imageGenerator(
+    //   constants.IMAGES_DIR + "/" + id + ".png",
+    //   userDrawings[label]
+    // );
 
     // Add the important features to the drawing meta data
     const features = activeFeatureFunctions.map((f) => f(userDrawings[label]));
-    drawingsMetaData.push({
-      id: id,
-      label: label,
+    drawingSamples.push({
+      id,
+      label,
       predictedLabel: label,
       correct: false,
-      user: user,
-      user_id: user_id,
-      features: features,
+      user,
+      user_id,
+      features,
     });
 
     // Log the progress of generating images
@@ -56,34 +53,33 @@ fileNames.forEach((fileName) => {
   }
 });
 
-const minMax = ff.normalizeFeatures(drawingsMetaData.map((d) => d.features));
+// Create testing and training files
+console.log("\nCreating testing and training samples...\n");
+const minMax = test(drawingSamples, featureNames);
 
 fs.writeFileSync(
   constants.DATASET_DIR + "/dataset.js",
   "const dataset = " +
-    JSON.stringify({ featureNames, drawingsMetaData, minMax }) +
+    JSON.stringify({ featureNames, drawingSamples, minMax }) +
     ";"
 );
 
 fs.writeFileSync(
   constants.FRONTEND_DATASET_DIR + "/dataset.js",
   "const dataset = " +
-    JSON.stringify({ featureNames, drawingsMetaData, minMax }) +
+    JSON.stringify({ featureNames, drawingSamples, minMax }) +
     ";"
 );
 
 fs.writeFileSync(
   constants.DATASET_DIR + "/dataset.json",
-  JSON.stringify(drawingsMetaData)
+  JSON.stringify(drawingSamples)
 );
 
 fs.writeFileSync(
   constants.DATASET_DIR + "/minmax.json",
   JSON.stringify(minMax)
 );
-
-// Create testing and training files
-test(drawingsMetaData, featureNames, constants.classifier);
 
 // Generate images
 function imageGenerator(filePath, drawing) {
@@ -109,7 +105,7 @@ function imageGenerator(filePath, drawing) {
   const RGB = `rgb(${r},${g},${b})`;
   draw(ctx, convexHull, RGB);
 
-  //// To display scales drawings
+  //// Draw scaled drawings
   // const pixels = ff.getPixels(drawing);
   // const size = Math.sqrt(pixels.length);
   // const imgData = ctx.getImageData(0, 0, size, size);

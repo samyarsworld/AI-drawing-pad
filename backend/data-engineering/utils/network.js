@@ -9,7 +9,7 @@ class NeuralNetwork {
   // Try not writing the first line in the method
   static feedForward(givenInputs, network) {
     let outputs = Level.feedForward(givenInputs, network.levels[0]);
-    for (let i = 0; i < network.levels.length; i++) {
+    for (let i = 1; i < network.levels.length; i++) {
       outputs = Level.feedForward(outputs, network.levels[i]);
     }
     return outputs;
@@ -53,7 +53,9 @@ class Level {
         sum += level.inputs[j] * level.weights[j][i];
       }
 
-      level.outputs[i] = sum + level.biases[i];
+      // level.outputs[i] = sum + level.biases[i];
+      // With trello activation function
+      level.outputs[i] = Math.max(0, sum + level.biases[i]);
     }
 
     return level.outputs;

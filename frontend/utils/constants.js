@@ -10,7 +10,7 @@ const STYLES = {
   guitar: { color: "red", text: "🎸" },
 };
 
-const LABELS = [
+const CLASSES = [
   "car",
   "clock",
   "fish",
