@@ -3,7 +3,7 @@ from sklearn.neural_network import MLPClassifier
 import json
 
 # hidden layers
-hidden = (12)
+hidden = (50, 20)
 
 mlp = MLPClassifier(hidden, max_iter=10000)
 

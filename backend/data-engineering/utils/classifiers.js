@@ -53,6 +53,7 @@ export class MLP {
   fit(data, tries = 1000) {
     let bestNetwork = this.network;
     let bestAccuracy = this.evaluate(data);
+    let id = 0;
     for (let i = 0; i < tries; i++) {
       this.network = new NeuralNetwork(this.neuronCounts);
       const accuracy = this.evaluate(data);
@@ -60,6 +61,10 @@ export class MLP {
         bestAccuracy = accuracy;
         bestNetwork = this.network;
       }
+      process.stdout.clearLine();
+      process.stdout.cursorTo(0);
+      process.stdout.write(id + "/" + tries);
+      id += 1;
     }
     this.network = bestNetwork;
   }

@@ -89,13 +89,19 @@ ff.getRoundness = (drawing) => {
 };
 
 ff.active = [
+  {
+    name: "Pixel Array",
+    function: (paths) => {
+      return ff.getPixels(paths, 20);
+    },
+  },
   //{featureName:"Segment Count",function:getDrawingSegmentCount},
   //{featureName:"Point Count",function:getDrawingPointCount},
-  { featureName: "Drawing Width", function: ff.getDrawingWidth },
-  { featureName: "Drawing Height", function: ff.getDrawingHeight },
-  { featureName: "Elongation", function: ff.getElongation },
-  { featureName: "Roundness", function: ff.getRoundness },
-  { featureName: "Complexity", function: ff.getComplexity },
+  // { featureName: "Drawing Width", function: ff.getDrawingWidth },
+  // { featureName: "Drawing Height", function: ff.getDrawingHeight },
+  // { featureName: "Elongation", function: ff.getElongation },
+  // { featureName: "Roundness", function: ff.getRoundness },
+  // { featureName: "Complexity", function: ff.getComplexity },
 ];
 
 // Normalize feature points

@@ -13,7 +13,10 @@ const ctx = canvas.getContext("2d");
 const fileNames = fs.readdirSync(constants.RAW_DATA_DIR);
 const totalDrawings = fileNames.length * constants.NUM_OF_CLASSES;
 const drawingSamples = [];
-const featureNames = ff.active.map((f) => f.featureName);
+// const featureNames = ff.active.map((f) => f.featureName);
+// For deep learning
+const featureNames = Array(400).fill(" ");
+
 const activeFeatureFunctions = ff.active.map((f) => f.function);
 
 let id = 1; // Image ID to be saved on the cloud
@@ -34,7 +37,13 @@ fileNames.forEach((fileName) => {
     // );
 
     // Add the important features to the drawing meta data
-    const features = activeFeatureFunctions.map((f) => f(userDrawings[label]));
+    // const features = activeFeatureFunctions.map((f) => f(userDrawings[label]));
+
+    // For deep learning
+    const features = Object.values(
+      activeFeatureFunctions.map((f) => f(userDrawings[label]))[0]
+    );
+
     drawingSamples.push({
       id,
       label,

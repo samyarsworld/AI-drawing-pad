@@ -9,7 +9,7 @@ const { trainingSamples } = JSON.parse(
 );
 
 const mlp = new MLP(
-  [trainingSamples[0].features.length, 12, constants.CLASSES.length],
+  [trainingSamples[0].features.length, 50, 20, constants.CLASSES.length],
   constants.CLASSES
 );
 
@@ -17,7 +17,7 @@ if (fs.existsSync(constants.MODEL)) {
   mlp.load(JSON.parse(fs.readFileSync(constants.MODEL)));
 }
 
-mlp.fit(trainingSamples, 5000);
+mlp.fit(trainingSamples, 1000);
 
 fs.writeFileSync(constants.MODEL, JSON.stringify(mlp));
 fs.writeFileSync(constants.MODEL_JS, `const model = ${JSON.stringify(mlp)};`);

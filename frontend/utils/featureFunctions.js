@@ -117,15 +117,22 @@ function normalizeFeatures(features, minMax) {
 }
 
 const featureFunctions = [
-  { featureName: "Drawing Width", function: getDrawingWidth, active: true },
-  { featureName: "Drawing Height", function: getDrawingHeight, active: true },
-  { featureName: "Elongation", function: getElongation, active: true },
-  { featureName: "Roundness", function: getRoundness, active: true },
-  { featureName: "Complexity", function: getComplexity, active: true },
+  {
+    name: "Pixel Array",
+    function: (paths) => {
+      return getPixels(paths, 20);
+    },
+  },
+  // { featureName: "Drawing Width", function: getDrawingWidth, active: true },
+  // { featureName: "Drawing Height", function: getDrawingHeight, active: true },
+  // { featureName: "Elongation", function: getElongation, active: true },
+  // { featureName: "Roundness", function: getRoundness, active: true },
+  // { featureName: "Complexity", function: getComplexity, active: true },
 ];
 
 function getActiveFeatureFunctions() {
-  return featureFunctions.filter((item) => item.active).map((f) => f.function);
+  // return featureFunctions.filter((item) => item.active).map((f) => f.function);
+  return featureFunctions[0].function;
 }
 
 let activeIndex = [0, 1, 2, 3, 4];

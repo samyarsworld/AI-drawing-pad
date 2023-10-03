@@ -81,7 +81,12 @@ Visualizer.drawNetwork(networkCtx, mLP.network, outputLabels);
 // Update chart while sketching on the smartPad
 function drawingUpdate(drawing) {
   let activeFeatureFunctions = getActiveFeatureFunctions();
-  const drawingFeatures = activeFeatureFunctions.map((f) => f(drawing));
+  // const drawingFeatures = activeFeatureFunctions.map((f) => f(drawing));
+
+  console.log(activeFeatureFunctions);
+  // For deep learning
+  const drawingFeatures = activeFeatureFunctions(drawing);
+
   normalizeFeatures(drawingFeatures, minMax);
 
   // const label = kNN.predict(drawingFeatures, activeIndex);

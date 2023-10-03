@@ -38,7 +38,8 @@ function test(drawingSamples, featureNames) {
   // Deep learning model
   const mLP = new MLP([
     trainingSamples[0].features.length,
-    12,
+    50,
+    20,
     constants.CLASSES.length,
   ]);
 
@@ -47,11 +48,14 @@ function test(drawingSamples, featureNames) {
     mLP.load(JSON.parse(fs.readFileSync(constants.MODEL)));
   }
 
-  mLP.fit(trainingSamples, 5000);
+  console.log("\nBuild the MLP model using training samples...");
+  mLP.fit(trainingSamples, 1000);
 
   fs.writeFileSync(constants.MODEL, JSON.stringify(mLP));
   fs.writeFileSync(constants.MODEL_JS, `const model = ${JSON.stringify(mLP)}`);
 
+  console.log("\nClassify testing set...");
+  let id = 1;
   // Classify each testing image
   let correctCount = 0;
   let totalCount = testingSamples.length;
@@ -64,6 +68,11 @@ function test(drawingSamples, featureNames) {
     if (drawing.correct) {
       correctCount += 1;
     }
+    // Log the progress of generating images
+    process.stdout.clearLine();
+    process.stdout.cursorTo(0);
+    process.stdout.write(id + "/" + testingSamples.length);
+    id += 1;
   }
 
   // Print accuracy
