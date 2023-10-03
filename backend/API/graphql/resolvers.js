@@ -3,7 +3,7 @@ import RawDrawing from "../models/rawDrawingsModel.js";
 import constants from "../../data-engineering/utils/constants.js";
 
 import ff from "../../data-engineering/utils/featureFunctions.js";
-import { KNN } from "../../data-engineering/utils/classifiers.js";
+import { KNN, MLP } from "../../data-engineering/utils/classifiers.js";
 
 import fs from "fs";
 
