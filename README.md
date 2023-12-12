@@ -1,6 +1,8 @@
 # SmartPad
 https://smartpad.onrender.com/
-NOT COMPLETE
+
+Readme under construction...
+
 ## A real-world cutting-edge machine learning and data science project that classifies the drawn image on a SmartPad.
 
 A link to the live website can be found here: .....
